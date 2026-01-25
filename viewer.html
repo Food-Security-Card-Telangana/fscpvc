@@ -151,6 +151,8 @@
 
         <div class="footer">
             <div class="verified-badge">✓ VERIFIED DIGITAL RECORD</div>
+            <div id="verified-date-footer"
+                style="margin-bottom: 10px; font-weight: bold; color: #2e7d32; font-size: 0.9rem;"></div>
             <p>This is a system-generated digital summary of the FSC record.</p>
             <p>© Government of Telangana. All Rights Reserved.</p>
         </div>
@@ -192,6 +194,10 @@
                     `;
                 }
             });
+
+            if (data.vt) {
+                document.getElementById('verified-date-footer').innerText = "Verified On: " + data.vt;
+            }
 
             const rows = document.getElementById('member-rows');
             if (data.m && data.m.length > 0) {
