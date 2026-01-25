@@ -200,7 +200,7 @@
                         <tr>
                             <td>${i + 1}</td>
                             <td>${name}</td>
-                            <td>${data.h === name ? 'Head of Family' : 'Member'}</td>
+                            <td>${data.h.trim().toUpperCase() === name.trim().toUpperCase() ? 'Head of Family' : 'Member'}</td>
                         </tr>
                     `;
                 });

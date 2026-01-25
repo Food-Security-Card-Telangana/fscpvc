@@ -227,7 +227,7 @@ function renderCardsOnPage(data) {
         cn: details.consumerNo,
         ks: details.keyRegisterSlNo,
         os: details.oldRCNo,
-        m: members.map(m => m.name.substring(0, 15))
+        m: members.map(m => m.name)
     };
     const encoded = btoa(encodeURIComponent(JSON.stringify(qrRawData)));
     const qrUrl = `https://food-security-card-telangana.github.io/fscpvc/viewer.html?d=${encoded}`;
