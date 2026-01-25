@@ -143,17 +143,16 @@ button {
 .info-side label {
     display: block;
     color: #999;
-    font-size: 0.45rem;
-    font-weight: 400;
-    /* Lighter for contrast */
+    font-size: 0.62rem;
+    font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.2px;
 }
 
 .info-side strong {
     font-weight: 600;
-    /* Cleaner premium weight */
     color: #111;
+    font-size: 0.62rem;
 }
 
 .info-side div.row-layout {
