@@ -10,6 +10,14 @@ A powerful Chrome Extension to extract Food Security Card (FSC) details from the
 - **Smart QR Code**: Encodes family data into a QR code on the back of the card for digital verification.
 - **High Resolution**: Exports 6x scale PNG images for professional-grade printing.
 
+## 🚀 Fix QR Code 404 (IMPORTANT)
+If your QR code goes to a 404 page, you must enable **GitHub Pages**:
+1. Go to your repository on GitHub: `purnappc9/fscPVC`.
+2. Click on **Settings** (top tab).
+3. Click on **Pages** (in the left sidebar).
+4. Under **Build and deployment > Branch**, select `master` and click **Save**.
+5. Wait 1-2 minutes for GitHub to deploy the site.
+
 ## Installation
 1. Download or clone this repository.
 2. Open Chrome and go to `chrome://extensions/`.
