@@ -22,6 +22,7 @@
         "*://epds.telangana.gov.in/*"
       ],
       "js": [
+        "lib/html2canvas.min.js",
         "content.js"
       ]
     }
