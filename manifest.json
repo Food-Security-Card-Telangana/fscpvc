@@ -22,7 +22,18 @@
         "*://epds.telangana.gov.in/*"
       ],
       "js": [
+        "lib/html2canvas.min.js",
         "content.js"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "assets/*"
+      ],
+      "matches": [
+        "*://epds.telangana.gov.in/*"
       ]
     }
   ]
