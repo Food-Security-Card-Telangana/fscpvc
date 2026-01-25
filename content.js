@@ -237,7 +237,7 @@ function renderCardsOnPage(data) {
         `;
     };
 
-    renderArea.innerHTML = generateHtml('card-front', 'FSC FAMILY CARD', frontMembers) + generateHtml('card-back', 'FSC FAMILY CARD', backMembers);
+    renderArea.innerHTML = generateHtml('card-front', 'FSC Ration Card', frontMembers) + generateHtml('card-back', 'FSC Ration Card', backMembers);
     document.getElementById('fsc-preview-sidebar').classList.add('active');
 }
 

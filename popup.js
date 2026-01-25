@@ -118,9 +118,9 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         cardWrap.innerHTML = `
-            ${generateSideHtml('card-front', 'FSC FAMILY CARD', frontMembers)}
+            ${generateSideHtml('card-front', 'FSC Ration Card', frontMembers)}
             <div style="margin-top: 20px;">
-                ${generateSideHtml('card-back', 'FSC FAMILY CARD', backMembers)}
+                ${generateSideHtml('card-back', 'FSC Ration Card', backMembers)}
             </div>
         `;
     }
