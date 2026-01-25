@@ -90,7 +90,8 @@ button {
     padding: 8px;
     text-align: center;
     color: var(--primary-color);
-    font-weight: 900;
+    font-weight: 700;
+    /* Reduced from 900 for a cleaner look */
     font-size: 0.85rem;
     letter-spacing: 0.8px;
     border-bottom: 2px solid var(--primary-color);
@@ -175,7 +176,8 @@ button {
 }
 
 .hof-label {
-    font-weight: 900;
+    font-weight: 700;
+    /* Reduced from 900 */
     font-size: 0.8rem;
     flex: 1;
     color: var(--primary-color);
