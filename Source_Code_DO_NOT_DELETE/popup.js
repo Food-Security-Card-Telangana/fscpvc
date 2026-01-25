@@ -66,10 +66,16 @@ document.addEventListener('DOMContentLoaded', () => {
             r: details.fscRefNo,
             h: details.hof,
             d: details.district,
-            g: details.gasConnection,
-            c: details.consumerNo,
-            s: details.fpShopNo,
-            o: details.oldRCNo,
+            ct: details.cardType,
+            as: details.applicationStatus,
+            an: details.applicationNo,
+            sn: details.sksFormNo,
+            on: details.officeName,
+            is: details.impdsStatus,
+            gc: details.gasConnection,
+            cn: details.consumerNo,
+            ks: details.keyRegisterSlNo,
+            os: details.oldRCNo,
             m: members.map(m => m.name.substring(0, 20)) // Keep names short for QR
         };
 

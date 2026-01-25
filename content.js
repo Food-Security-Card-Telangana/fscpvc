@@ -71,6 +71,21 @@ function extractFSCData() {
         if (matches(label, ['Card Type'])) {
             if (!data.details.cardType) data.details.cardType = value;
         }
+        if (matches(label, ['Application Status'])) {
+            if (!data.details.applicationStatus) data.details.applicationStatus = value;
+        }
+        if (matches(label, ['Application No'])) {
+            if (!data.details.applicationNo) data.details.applicationNo = value;
+        }
+        if (matches(label, ['SKS Form No'])) {
+            if (!data.details.sksFormNo) data.details.sksFormNo = value;
+        }
+        if (matches(label, ['Office Name'])) {
+            if (!data.details.officeName) data.details.officeName = value;
+        }
+        if (matches(label, ['IMPDS Status'])) {
+            if (!data.details.impdsStatus) data.details.impdsStatus = value;
+        }
 
         if (matches(label, ['KeyRegister'])) {
             data.details.keyRegisterSlNo = value;
@@ -197,10 +212,26 @@ function renderCardsOnPage(data) {
     const frontMembers = filteredMembers.slice(0, 6);
     const backMembers = filteredMembers.length > 6 ? filteredMembers.slice(6, 12) : [];
 
-    const qrRawData = { f: details.fscNo, h: details.hof, d: details.district, m: members.map(m => m.name.substring(0, 15)) };
+    const qrRawData = {
+        f: details.fscNo,
+        r: details.fscRefNo,
+        h: details.hof,
+        d: details.district,
+        ct: details.cardType,
+        as: details.applicationStatus,
+        an: details.applicationNo,
+        sn: details.sksFormNo,
+        on: details.officeName,
+        is: details.impdsStatus,
+        gc: details.gasConnection,
+        cn: details.consumerNo,
+        ks: details.keyRegisterSlNo,
+        os: details.oldRCNo,
+        m: members.map(m => m.name.substring(0, 15))
+    };
     const encoded = btoa(encodeURIComponent(JSON.stringify(qrRawData)));
     const qrUrl = `https://food-security-card-telangana.github.io/fscpvc/viewer.html?d=${encoded}`;
-    const qrImgSrc = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrUrl)}&margin=0`;
+    const qrImgSrc = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(qrUrl)}&margin=0&ecc=L`;
 
     const generateHtml = (id, title, list) => {
         const rows = list.map(m => `<tr><td style="width:22px; color:#aaa;">${m.sno}</td><td style="font-weight:700;">${m.name}</td></tr>`).join('');
