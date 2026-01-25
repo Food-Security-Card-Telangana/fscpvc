@@ -9,7 +9,9 @@
     "storage"
   ],
   "host_permissions": [
-    "https://epds.telangana.gov.in/*"
+    "https://epds.telangana.gov.in/*",
+    "http://epds.telangana.gov.in/*",
+    "*://*.telangana.gov.in/*"
   ],
   "action": {
     "default_popup": "popup.html"

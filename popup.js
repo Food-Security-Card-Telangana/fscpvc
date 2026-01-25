@@ -19,14 +19,21 @@ document.addEventListener('DOMContentLoaded', () => {
         );
 
         if (isPortal) {
+            statusMsg.innerText = "Connecting to portal...";
             chrome.tabs.sendMessage(activeTab.id, { action: "extract" }, (response) => {
+                if (chrome.runtime.lastError) {
+                    statusMsg.innerText = "Error: Please refresh the page and try again.";
+                    console.error(chrome.runtime.lastError);
+                    return;
+                }
+
                 if (response && response.details && response.details.fscNo) {
                     extractedData = response;
                     statusMsg.classList.add('hidden');
                     selectionArea.classList.remove('hidden');
                     document.getElementById('display-fsc').innerText = "FSC NO: " + response.details.fscNo;
                 } else {
-                    statusMsg.innerText = "Please search for a Ration Card first.";
+                    statusMsg.innerText = "Could not find Ration Card data. Please search first.";
                 }
             });
         }
