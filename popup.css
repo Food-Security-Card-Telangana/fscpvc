@@ -1,0 +1,165 @@
+/* popup.css - Unified 2-Sided PVC Layout */
+:root {
+    --primary-color: #00897b;
+    --accent-color: #4db6ac;
+    --bg-color: #f7fbfb;
+    --text-color: #263238;
+}
+
+body {
+    width: 380px;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    background-color: var(--bg-color);
+}
+
+.container {
+    padding: 16px;
+}
+
+.hidden {
+    display: none;
+}
+
+header {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: white;
+    padding: 12px;
+    text-align: center;
+    border-radius: 8px 8px 0 0;
+    margin: -16px -16px 16px -16px;
+}
+
+header h1 {
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.info-group {
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    margin-bottom: 12px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+/* PVC CARD SHARED STYLES */
+.pvc-card {
+    width: 330px;
+    height: 210px;
+    /* Adjusted for better footer fit */
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    margin: 10px auto;
+    border: 1px solid #e0e0e0;
+}
+
+.card-header {
+    background: linear-gradient(to right, #009688, #4db6ac);
+    padding: 8px;
+    text-align: center;
+    color: white;
+    font-weight: 800;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+}
+
+.card-content-split {
+    display: flex;
+    padding: 12px;
+    gap: 12px;
+    height: 140px;
+}
+
+.info-side {
+    flex: 0 0 120px;
+    font-size: 0.68rem;
+    border-right: 1px solid #f0f0f0;
+    padding-right: 10px;
+    color: var(--text-color);
+}
+
+.info-side div {
+    margin-bottom: 5px;
+}
+
+.info-side label {
+    display: block;
+    color: #888;
+    font-size: 0.5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.list-side {
+    flex: 1;
+}
+
+.family-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.7rem;
+    color: #333;
+}
+
+.family-table th {
+    text-align: left;
+    padding-bottom: 4px;
+    border-bottom: 1.5px solid var(--accent-color);
+    color: var(--primary-color);
+    font-size: 0.58rem;
+}
+
+.family-table td {
+    padding: 4.5px 0;
+    border-bottom: 1px solid #f7f7f7;
+}
+
+.card-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 38px;
+    background: linear-gradient(to right, #00796b, #009688);
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    box-sizing: border-box;
+    color: white;
+}
+
+.hof-label {
+    font-weight: 800;
+    font-size: 0.85rem;
+    flex: 1;
+}
+
+.qr-box {
+    background: white;
+    padding: 1px;
+    border-radius: 4px;
+    width: 44px;
+    height: 44px;
+    position: absolute;
+    bottom: 3.5px;
+    right: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

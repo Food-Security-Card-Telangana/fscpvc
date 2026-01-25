@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital FSC Card Viewer</title>
+    <style>
+        :root {
+            --primary: #00897b;
+            --secondary: #004d40;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .digital-card {
+            background: white;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .field {
+            margin-bottom: 12px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+        }
+
+        .label {
+            color: #888;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .value {
+            font-size: 1rem;
+            color: #222;
+            font-weight: 500;
+        }
+
+        .member-list {
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        th {
+            text-align: left;
+            color: var(--primary);
+            border-bottom: 2px solid #eee;
+            padding: 8px 0;
+        }
+
+        td {
+            padding: 8px 0;
+            border-bottom: 1px solid #f9f9f9;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            background: #f9f9f9;
+            font-size: 0.7rem;
+            color: #aaa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="digital-card">
+        <header>GOVERNMENT OF TELANGANA - FSC</header>
+        <div class="content">
+            <div id="basic-info"></div>
+            <div class="member-list">
+                <th>Family Members</th>
+                <table id="members-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                        </tr>
+                    </thead>
+                    <tbody id="members-body"></tbody>
+                </table>
+            </div>
+        </div>
+        <footer>Verified Digital FSC Record</footer>
+    </div>
+
+    <script>
+        // Parse data from URL hash (to avoid server logging of sensitive data)
+        try {
+            const hash = window.location.hash.substring(1);
+            if (hash) {
+                const data = JSON.parse(decodeURIComponent(atob(hash)));
+
+                const infoDiv = document.getElementById('basic-info');
+                const fields = [
+                    ['FSC NO', data.fscNo],
+                    ['HEAD OF FAMILY', data.hof],
+                    ['DISTRICT', data.district],
+                    ['CARD TYPE', data.cardType],
+                    ['GAS CONNECTION', data.gasConnection],
+                    ['CONSUMER NO', data.consumerNo]
+                ];
+
+                fields.forEach(([label, val]) => {
+                    infoDiv.innerHTML += `
+                        <div class="field">
+                            <div class="label">${label}</div>
+                            <div class="value">${val || 'N/A'}</div>
+                        </div>
+                    `;
+                });
+
+                const tbody = document.getElementById('members-body');
+                data.members.forEach((m, i) => {
+                    tbody.innerHTML += `<tr><td>${i + 1}</td><td>${m.name}</td></tr>`;
+                });
+            }
+        } catch (e) {
+            document.body.innerHTML = "<h1>Invalid or Expired Link</h1>";
+        }
+    </script>
+</body>
+
+</html>
