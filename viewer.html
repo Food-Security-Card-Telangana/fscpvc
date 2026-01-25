@@ -161,40 +161,43 @@
             const hash = window.location.hash.substring(1);
             if (!hash) throw new Error("No data");
 
-            const data = JSON.parse(decodeURIComponent(atob(hash)));
-            const details = data.details;
+            const data = JSON.parse(decodeURIComponent(escape(atob(hash))));
 
             const mapping = [
-                ['New Ration Card No', details.fscNo],
-                ['FSC Reference No', details.fscRefNo],
-                ['Card Type', details.cardType],
-                ['Application Status', details.appStatus],
-                ['District', details.district],
-                ['Head of Family', details.hof],
-                ['Gas Connection', details.gasConnection],
-                ['Consumer No', details.consumerNo],
-                ['FP Shop No', details.fpShopNo],
-                ['Old RCNo', details.oldRCNo]
+                ['New Ration Card No', data.f],
+                ['FSC Reference No', data.r],
+                ['Head of Family', data.h],
+                ['District', data.d],
+                ['Gas Connection', data.g],
+                ['Consumer No', data.c],
+                ['FP Shop No', data.s],
+                ['Old RCNo', data.o]
             ];
 
             const detailsView = document.getElementById('details-view');
             mapping.forEach(([label, val]) => {
-                detailsView.innerHTML += `
-                    <div class="grid-item label">${label}</div>
-                    <div class="grid-item value">${val || '---'}</div>
-                `;
+                if (val) {
+                    detailsView.innerHTML += `
+                        <div class="grid-item label">${label}</div>
+                        <div class="grid-item value">${val}</div>
+                    `;
+                }
             });
 
             const rows = document.getElementById('member-rows');
-            data.members.forEach((m) => {
-                rows.innerHTML += `
-                    <tr>
-                        <td>${m.sno}</td>
-                        <td>${m.name}</td>
-                        <td>${details.hof === m.name ? 'Head of Family' : 'Member'}</td>
-                    </tr>
-                `;
-            });
+            if (data.m && data.m.length > 0) {
+                data.m.forEach((name, i) => {
+                    rows.innerHTML += `
+                        <tr>
+                            <td>${i + 1}</td>
+                            <td>${name}</td>
+                            <td>${data.h === name ? 'Head of Family' : 'Member'}</td>
+                        </tr>
+                    `;
+                });
+            } else {
+                rows.innerHTML = '<tr><td colspan="3" style="text-align:center;">No member names encoded.</td></tr>';
+            }
 
         } catch (e) {
             document.getElementById('main-content').innerHTML = `
