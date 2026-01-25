@@ -164,6 +164,8 @@ button {
 
 .info-side div.row-layout label {
     margin-bottom: 0;
+    font-size: 0.62rem;
+    /* Ensuring consistency in row layout */
 }
 
 .list-side {
