@@ -78,7 +78,7 @@ button {
     transform: translate(-50%, -50%);
     width: 150px;
     height: 150px;
-    background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/e0/Seal_of_Telangana.png');
+    background-image: url('assets/emblem_ts.svg');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
