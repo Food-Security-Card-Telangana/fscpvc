@@ -139,6 +139,16 @@ button {
     color: #111;
 }
 
+.info-side div.row-layout {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.info-side div.row-layout label {
+    margin-bottom: 0;
+}
+
 .list-side {
     flex: 1;
 }
