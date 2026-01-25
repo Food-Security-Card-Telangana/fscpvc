@@ -234,13 +234,17 @@
 
         function renderTest() {
             const normalizedHof = details.hof.trim().replace(/\s+/g, ' ').toUpperCase();
-            const filteredMembers = members.filter(m => {
+            let displayMembers = members.filter(m => {
                 const normalizedName = m.name.trim().replace(/\s+/g, ' ').toUpperCase();
                 return normalizedName !== normalizedHof;
             });
 
-            const frontMembers = filteredMembers.slice(0, 6);
-            const backMembers = filteredMembers.slice(6, 12);
+            if (displayMembers.length === 0 && members.length > 0) {
+                displayMembers = members;
+            }
+
+            const frontMembers = displayMembers.slice(0, 6);
+            const backMembers = displayMembers.slice(6, 12);
 
             const generateHtml = (title, list) => {
                 const rows = list.map(m => `<tr><td style="width:22px; color:#aaa;">${m.sno}</td><td style="font-weight:700;">${m.name}</td></tr>`).join('');

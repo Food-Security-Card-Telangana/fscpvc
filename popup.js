@@ -56,13 +56,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Filter out HOF from the list using robust normalized matching
         const normalizedHof = details.hof.trim().replace(/\s+/g, ' ').toUpperCase();
-        const filteredMembers = members.filter(m => {
+        let displayMembers = members.filter(m => {
             const normalizedName = m.name.trim().replace(/\s+/g, ' ').toUpperCase();
             return normalizedName !== normalizedHof;
         });
 
-        const frontMembers = filteredMembers.slice(0, 6);
-        const backMembers = filteredMembers.length > 6 ? filteredMembers.slice(6, 12) : [];
+        // If it's a single-member family, don't hide the HOF from the list
+        if (displayMembers.length === 0 && members.length > 0) {
+            displayMembers = members;
+        }
+
+        const frontMembers = displayMembers.slice(0, 6);
+        const backMembers = displayMembers.length > 6 ? displayMembers.slice(6, 12) : [];
 
         // Create Data URL for QR (pointing to your GitHub Pages viewer with encoded data)
         // Optimized: only encode necessary data to keep QR density low and scannable

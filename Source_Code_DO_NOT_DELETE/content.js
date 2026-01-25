@@ -212,14 +212,19 @@ function renderCardsOnPage(data) {
     const details = data.details;
     const members = data.members;
     const normalizedHof = details.hof.trim().replace(/\s+/g, ' ').toUpperCase();
-    const filteredMembers = members.filter(m => {
+    let displayMembers = members.filter(m => {
         const normalizedName = m.name.trim().replace(/\s+/g, ' ').toUpperCase();
         return normalizedName !== normalizedHof;
     });
 
+    // If only HOF exists, show them in the list anyway so it's not empty
+    if (displayMembers.length === 0 && members.length > 0) {
+        displayMembers = members;
+    }
+
     // Strict 6-per-side split for physical PVC utility
-    const frontMembers = filteredMembers.slice(0, 6);
-    const backMembers = filteredMembers.length > 6 ? filteredMembers.slice(6, 12) : [];
+    const frontMembers = displayMembers.slice(0, 6);
+    const backMembers = displayMembers.length > 6 ? displayMembers.slice(6, 12) : [];
 
     const qrRawData = {
         f: details.fscNo,
