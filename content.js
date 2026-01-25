@@ -215,18 +215,20 @@ function renderCardsOnPage(data) {
     const qrRawData = {
         f: details.fscNo,
         r: details.fscRefNo,
-        h: details.hof,
-        d: details.district,
         ct: details.cardType,
         as: details.applicationStatus,
         an: details.applicationNo,
         sn: details.sksFormNo,
         on: details.officeName,
+        fs: details.fpShopNo,
+        h: details.hof,
+        d: details.district,
         is: details.impdsStatus,
         gc: details.gasConnection,
         cn: details.consumerNo,
         ks: details.keyRegisterSlNo,
         os: details.oldRCNo,
+        vt: new Date().toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' }),
         m: members.map(m => m.name)
     };
     const encoded = btoa(encodeURIComponent(JSON.stringify(qrRawData)));
