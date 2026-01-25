@@ -13,7 +13,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. Initial Data Extraction
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         const activeTab = tabs[0];
-        if (activeTab && activeTab.url.includes('epds.telangana.gov.in')) {
+        const isPortal = activeTab && activeTab.url && (
+            activeTab.url.toLowerCase().includes('epds.telangana.gov.in') ||
+            activeTab.url.toLowerCase().includes('telangana.gov.in')
+        );
+
+        if (isPortal) {
             chrome.tabs.sendMessage(activeTab.id, { action: "extract" }, (response) => {
                 if (response && response.details && response.details.fscNo) {
                     extractedData = response;

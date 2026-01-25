@@ -8,6 +8,10 @@
     "scripting",
     "storage"
   ],
+  "host_permissions": [
+    "https://epds.telangana.gov.in/*",
+    "http://epds.telangana.gov.in/*"
+  ],
   "action": {
     "default_popup": "popup.html"
   },
