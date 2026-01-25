@@ -24,29 +24,38 @@ function extractFSCData() {
             rows.forEach(row => {
                 const cells = row.querySelectorAll('td');
                 for (let i = 0; i < cells.length; i++) {
-                    const label = cells[i].innerText.trim();
-                    const value = cells[i + 1]?.innerText.trim();
+                    const cellText = cells[i].innerText.trim();
+                    // Split by colon if it exists in the same cell, otherwise take next cell
+                    let label = '';
+                    let value = '';
 
-                    if (!value) continue;
+                    if (cellText.includes(':')) {
+                        [label, value] = cellText.split(':').map(s => s.trim());
+                    } else {
+                        label = cellText;
+                        value = cells[i + 1]?.innerText.trim() || '';
+                        // If we used the next cell as value, skip it in the next iteration
+                        if (value) i++;
+                    }
 
-                    if (label.includes('New Ration Card No')) data.details.fscNo = value;
-                    if (label.includes('FSC Reference No')) data.details.fscRefNo = value;
-                    if (label.includes('Card Type')) data.details.cardType = value;
-                    if (label.includes('Application Status')) data.details.appStatus = value;
-                    if (label.includes('Gas Connection')) data.details.gasConnection = value;
-                    if (label.includes('Consumer No')) data.details.consumerNo = value;
-                    if (label.includes('Old RCNo')) data.details.oldRCNo = value;
-                    if (label.includes('Head of the Family')) data.details.hof = value;
-                    if (label.includes('District')) data.details.district = value;
-                    if (label.includes('Office Name')) data.details.officeName = value;
-                    if (label.includes('FPShop No')) data.details.fpShopNo = value;
+                    if (!label || !value) continue;
 
-                    // Special handling for KeyRegister Sl.No to get FPShop No
-                    if (label.startsWith('KeyRegister Sl.No')) {
+                    if (label.toLowerCase().includes('ration card no')) data.details.fscNo = value;
+                    if (label.toLowerCase().includes('reference no')) data.details.fscRefNo = value;
+                    if (label.toLowerCase().includes('card type')) data.details.cardType = value;
+                    if (label.toLowerCase().includes('application status')) data.details.appStatus = value;
+                    if (label.toLowerCase().includes('gas connection')) data.details.gasConnection = value;
+                    if (label.toLowerCase().includes('consumer no')) data.details.consumerNo = value;
+                    if (label.toLowerCase().includes('old rcno')) data.details.oldRCNo = value;
+                    if (label.toLowerCase().includes('head of the family')) data.details.hof = value;
+                    if (label.toLowerCase().includes('district')) data.details.district = value;
+                    if (label.toLowerCase().includes('office name')) data.details.officeName = value;
+                    if (label.toLowerCase().includes('fpshop no')) data.details.fpShopNo = value;
+
+                    // Support for KeyRegister Sl.No
+                    if (label.toLowerCase().includes('keyregister')) {
                         data.details.keyRegisterSlNo = value;
-                        if (!data.details.fpShopNo) {
-                            data.details.fpShopNo = extractIdInBrackets(value);
-                        }
+                        if (!data.details.fpShopNo) data.details.fpShopNo = extractIdInBrackets(value);
                     }
                 }
             });
