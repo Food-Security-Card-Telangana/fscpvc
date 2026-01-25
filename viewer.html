@@ -4,149 +4,205 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital FSC Card Viewer</title>
+    <title>Digital Food Security Card - Govt of Telangana</title>
     <style>
-        :root {
-            --primary: #00897b;
-            --secondary: #004d40;
-        }
-
         body {
-            font-family: 'Inter', sans-serif;
-            background: #f0f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f7f6;
             margin: 0;
-        }
-
-        .digital-card {
-            background: white;
-            width: 90%;
-            max-width: 400px;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-
-        header {
-            background: var(--primary);
-            color: white;
-            padding: 15px;
-            text-align: center;
-            font-weight: bold;
-        }
-
-        .content {
             padding: 20px;
+            color: #333;
         }
 
-        .field {
-            margin-bottom: 12px;
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            border: 2px solid #00897b;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            background: #00897b;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 1.4rem;
+        }
+
+        .header p {
+            margin: 5px 0 0;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .section-title {
+            background: #e0f2f1;
+            padding: 10px 20px;
+            font-weight: bold;
+            color: #00695c;
+            border-bottom: 1px solid #b2dfdb;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            margin-top: 10px;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 1px;
+            background: #eee;
             border-bottom: 1px solid #eee;
-            padding-bottom: 8px;
+        }
+
+        .grid-item {
+            background: white;
+            padding: 12px 20px;
+            font-size: 0.9rem;
         }
 
         .label {
-            color: #888;
-            font-size: 0.75rem;
-            text-transform: uppercase;
             font-weight: bold;
+            color: #666;
+            background: #fafafa;
         }
 
         .value {
-            font-size: 1rem;
-            color: #222;
+            color: #000;
             font-weight: 500;
         }
 
-        .member-list {
-            margin-top: 20px;
-        }
-
-        table {
+        .member-table {
             width: 100%;
             border-collapse: collapse;
+            margin: 0;
+        }
+
+        .member-table th {
+            background: #004d40;
+            color: white;
+            text-align: left;
+            padding: 12px 20px;
             font-size: 0.85rem;
         }
 
-        th {
-            text-align: left;
-            color: var(--primary);
-            border-bottom: 2px solid #eee;
-            padding: 8px 0;
+        .member-table td {
+            padding: 12px 20px;
+            border-bottom: 1px solid #eee;
+            font-size: 0.9rem;
         }
 
-        td {
-            padding: 8px 0;
-            border-bottom: 1px solid #f9f9f9;
-        }
-
-        footer {
-            text-align: center;
-            padding: 15px;
+        .member-table tr:nth-child(even) {
             background: #f9f9f9;
-            font-size: 0.7rem;
-            color: #aaa;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.8rem;
+            color: #777;
+            background: #fafafa;
+        }
+
+        .verified-badge {
+            display: inline-block;
+            background: #4caf50;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+            font-weight: bold;
         }
     </style>
 </head>
 
 <body>
-    <div class="digital-card">
-        <header>GOVERNMENT OF TELANGANA - FSC</header>
-        <div class="content">
-            <div id="basic-info"></div>
-            <div class="member-list">
-                <th>Family Members</th>
-                <table id="members-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                        </tr>
-                    </thead>
-                    <tbody id="members-body"></tbody>
-                </table>
-            </div>
+    <div class="container" id="main-content">
+        <div class="header">
+            <h1>Department of Consumer Affairs, Food & Civil Supplies</h1>
+            <p>Government of Telangana - Food Security Card Record</p>
         </div>
-        <footer>Verified Digital FSC Record</footer>
+
+        <div class="section-title">Ration Card Details</div>
+        <div id="details-view" class="details-grid">
+            <!-- Details will be injected here -->
+        </div>
+
+        <div class="section-title">Family Member Details</div>
+        <table class="member-table">
+            <thead>
+                <tr>
+                    <th style="width: 50px;">S.No</th>
+                    <th>Member Name</th>
+                    <th>Relationship</th>
+                </tr>
+            </thead>
+            <tbody id="member-rows">
+                <!-- Members will be injected here -->
+            </tbody>
+        </table>
+
+        <div class="footer">
+            <div class="verified-badge">✓ VERIFIED DIGITAL RECORD</div>
+            <p>This is a system-generated digital summary of the FSC record.</p>
+            <p>© Government of Telangana. All Rights Reserved.</p>
+        </div>
     </div>
 
     <script>
-        // Parse data from URL hash (to avoid server logging of sensitive data)
         try {
             const hash = window.location.hash.substring(1);
-            if (hash) {
-                const data = JSON.parse(decodeURIComponent(atob(hash)));
+            if (!hash) throw new Error("No data");
 
-                const infoDiv = document.getElementById('basic-info');
-                const fields = [
-                    ['FSC NO', data.fscNo],
-                    ['HEAD OF FAMILY', data.hof],
-                    ['DISTRICT', data.district],
-                    ['CARD TYPE', data.cardType],
-                    ['GAS CONNECTION', data.gasConnection],
-                    ['CONSUMER NO', data.consumerNo]
-                ];
+            const data = JSON.parse(decodeURIComponent(atob(hash)));
+            const details = data.details;
 
-                fields.forEach(([label, val]) => {
-                    infoDiv.innerHTML += `
-                        <div class="field">
-                            <div class="label">${label}</div>
-                            <div class="value">${val || 'N/A'}</div>
-                        </div>
-                    `;
-                });
+            const mapping = [
+                ['New Ration Card No', details.fscNo],
+                ['FSC Reference No', details.fscRefNo],
+                ['Card Type', details.cardType],
+                ['Application Status', details.appStatus],
+                ['District', details.district],
+                ['Head of Family', details.hof],
+                ['Gas Connection', details.gasConnection],
+                ['Consumer No', details.consumerNo],
+                ['FP Shop No', details.fpShopNo],
+                ['Old RCNo', details.oldRCNo]
+            ];
 
-                const tbody = document.getElementById('members-body');
-                data.members.forEach((m, i) => {
-                    tbody.innerHTML += `<tr><td>${i + 1}</td><td>${m.name}</td></tr>`;
-                });
-            }
+            const detailsView = document.getElementById('details-view');
+            mapping.forEach(([label, val]) => {
+                detailsView.innerHTML += `
+                    <div class="grid-item label">${label}</div>
+                    <div class="grid-item value">${val || '---'}</div>
+                `;
+            });
+
+            const rows = document.getElementById('member-rows');
+            data.members.forEach((m) => {
+                rows.innerHTML += `
+                    <tr>
+                        <td>${m.sno}</td>
+                        <td>${m.name}</td>
+                        <td>${details.hof === m.name ? 'Head of Family' : 'Member'}</td>
+                    </tr>
+                `;
+            });
+
         } catch (e) {
-            document.body.innerHTML = "<h1>Invalid or Expired Link</h1>";
+            document.getElementById('main-content').innerHTML = `
+                <div style="padding: 50px; text-align: center;">
+                    <h2 style="color: #c62828;">Invalid Digital Record</h2>
+                    <p>The scanned QR code contains invalid or corrupted data.</p>
+                </div>
+            `;
         }
     </script>
 </body>
