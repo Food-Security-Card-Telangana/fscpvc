@@ -154,8 +154,8 @@ const cardStyles = `
     .family-table th { text-align: left; border-bottom: 1.5px solid #4db6ac; color: #00897b; font-size: 0.58rem; padding-bottom: 2px; }
     .family-table td { padding: 1.5px 0; border-bottom: 1px solid #f7f7f7; }
     .card-footer { position: absolute; bottom: 0; width: 100%; height: 38px; background: #e8f5e9; border-top: 1.5px solid #4caf50; display: flex; align-items: center; padding: 0 12px; box-sizing: border-box; }
-    .hof-label { font-weight: 700; font-size: 0.8rem; flex: 1; color: #2e7d32; padding-right: 60px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-    .qr-box { background: white; padding: 1.5px; border-radius: 4px; width: 54px; height: 54px; position: absolute; bottom: 4px; right: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.12); display: flex; align-items: center; justify-content: center; z-index: 10; }
+    .hof-label { font-weight: 700; font-size: 0.78rem; flex: 1; color: #2e7d32; }
+    .qr-box { background: white; width: 32px; height: 32px; border-radius: 3px; display: flex; align-items: center; justify-content: center; }
 `;
 
 let lastDetectedFsc = null;
@@ -229,7 +229,7 @@ function renderCardsOnPage(data) {
         ks: details.keyRegisterSlNo,
         os: details.oldRCNo,
         vt: new Date().toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' }),
-        m: members.map(m => m.name)
+        m: members.map(m => m.name.substring(0, 20))
     };
     const encoded = btoa(encodeURIComponent(JSON.stringify(qrRawData)));
     const qrUrl = `https://food-security-card-telangana.github.io/fscpvc/viewer.html?d=${encoded}`;
@@ -261,9 +261,9 @@ function renderCardsOnPage(data) {
                     </div>
                 </div>
                 <div class="card-footer">
-                    <div class="hof-label" title="HOF: ${details.hof}">HOF: ${details.hof}</div>
+                    <div class="hof-label">HOF: ${details.hof}</div>
                     <div class="qr-box">
-                        <img src="${qrImgSrc}" width="52" height="52">
+                        <img src="${qrImgSrc}" width="34" height="34">
                     </div>
                 </div>
             </div>
