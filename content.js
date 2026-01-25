@@ -283,6 +283,7 @@ function renderCardsOnPage(data) {
     };
 
     document.getElementById('fsc-preview-sidebar').classList.add('active');
+    document.body.classList.add('fsc-shift-body');
 }
 
 function autoDetectAndPreview() {
