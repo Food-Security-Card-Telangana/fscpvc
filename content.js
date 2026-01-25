@@ -29,17 +29,17 @@ function extractFSCData() {
 
                     if (!value) continue;
 
-                    if (label.startsWith('New Ration Card No')) data.details.fscNo = value;
-                    if (label.startsWith('FSC Reference No')) data.details.fscRefNo = value;
-                    if (label.startsWith('Card Type')) data.details.cardType = value;
-                    if (label.startsWith('Application Status')) data.details.appStatus = value;
-                    if (label.startsWith('Gas Connection')) data.details.gasConnection = value;
-                    if (label.startsWith('Consumer No')) data.details.consumerNo = value;
-                    if (label.startsWith('Old RCNo')) data.details.oldRCNo = value;
-                    if (label.startsWith('Head of the Family')) data.details.hof = value;
-                    if (label.startsWith('District')) data.details.district = value;
-                    if (label.startsWith('Office Name')) data.details.officeName = value;
-                    if (label.startsWith('FPShop No')) data.details.fpShopNo = value;
+                    if (label.includes('New Ration Card No')) data.details.fscNo = value;
+                    if (label.includes('FSC Reference No')) data.details.fscRefNo = value;
+                    if (label.includes('Card Type')) data.details.cardType = value;
+                    if (label.includes('Application Status')) data.details.appStatus = value;
+                    if (label.includes('Gas Connection')) data.details.gasConnection = value;
+                    if (label.includes('Consumer No')) data.details.consumerNo = value;
+                    if (label.includes('Old RCNo')) data.details.oldRCNo = value;
+                    if (label.includes('Head of the Family')) data.details.hof = value;
+                    if (label.includes('District')) data.details.district = value;
+                    if (label.includes('Office Name')) data.details.officeName = value;
+                    if (label.includes('FPShop No')) data.details.fpShopNo = value;
 
                     // Special handling for KeyRegister Sl.No to get FPShop No
                     if (label.startsWith('KeyRegister Sl.No')) {
