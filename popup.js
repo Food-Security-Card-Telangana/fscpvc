@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="card-footer">
                         <div class="hof-label">HOF: ${details.hof}</div>
                         <div class="qr-box">
-                            <img src="${qrImg}" width="42" height="42">
+                            <img src="${qrImg}" width="34" height="34">
                         </div>
                     </div>
                 </div>
