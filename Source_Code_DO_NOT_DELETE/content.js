@@ -269,6 +269,14 @@ function renderCardsOnPage(data) {
     };
 
     renderArea.innerHTML = generateHtml('card-front', 'FSC Ration Card', frontMembers) + generateHtml('card-back', 'FSC Ration Card', backMembers);
+
+    // Assign click handlers here where 'details' is available
+    document.getElementById('fsc-dl-front').onclick = () => downloadCard('card-front', details.fscNo, details.hof);
+    document.getElementById('fsc-dl-both').onclick = async () => {
+        await downloadCard('card-front', details.fscNo, details.hof);
+        setTimeout(() => downloadCard('card-back', details.fscNo, details.hof), 800);
+    };
+
     document.getElementById('fsc-preview-sidebar').classList.add('active');
 }
 
