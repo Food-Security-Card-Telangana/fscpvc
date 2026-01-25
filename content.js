@@ -154,8 +154,8 @@ const cardStyles = `
     .family-table th { text-align: left; border-bottom: 1.5px solid #4db6ac; color: #00897b; font-size: 0.58rem; padding-bottom: 2px; }
     .family-table td { padding: 1.5px 0; border-bottom: 1px solid #f7f7f7; }
     .card-footer { position: absolute; bottom: 0; width: 100%; height: 38px; background: #e8f5e9; border-top: 1.5px solid #4caf50; display: flex; align-items: center; padding: 0 12px; box-sizing: border-box; }
-    .hof-label { font-weight: 700; font-size: 0.78rem; flex: 1; color: #2e7d32; }
-    .qr-box { background: white; width: 32px; height: 32px; border-radius: 3px; display: flex; align-items: center; justify-content: center; }
+    .hof-label { font-weight: 700; font-size: 0.8rem; flex: 1; color: #2e7d32; padding-right: 45px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .qr-box { background: white; padding: 1px; border-radius: 3px; width: 34px; height: 34px; position: absolute; bottom: 2px; right: 8px; display: flex; align-items: center; justify-content: center; z-index: 10; }
 `;
 
 let lastDetectedFsc = null;
@@ -182,12 +182,6 @@ function setupOnPagePreview() {
     document.body.appendChild(sidebar);
 
     sidebar.querySelector('.fsc-close-btn').onclick = () => sidebar.classList.remove('active');
-
-    document.getElementById('fsc-dl-front').onclick = () => downloadCard('card-front', details.fscNo, details.hof);
-    document.getElementById('fsc-dl-both').onclick = async () => {
-        await downloadCard('card-front', details.fscNo, details.hof);
-        setTimeout(() => downloadCard('card-back', details.fscNo, details.hof), 800);
-    };
 }
 
 async function downloadCard(id, fscNo, hof) {
