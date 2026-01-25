@@ -69,19 +69,22 @@ button {
     border: 1px solid #e0e0e0;
 }
 
-/* Subtle Ink-Efficient Watermark */
+/* Subtle Ink-Efficient Official Seal Watermark */
 .pvc-card::before {
-    content: "TS-FSC";
+    content: "";
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) rotate(-30deg);
-    font-size: 4rem;
-    font-weight: 900;
-    color: rgba(0, 137, 123, 0.03);
-    /* Extremely faint */
+    transform: translate(-50%, -50%);
+    width: 150px;
+    height: 150px;
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/e0/Seal_of_Telangana.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.06;
+    /* Extremely faint for luxury feel and ink saving */
     pointer-events: none;
-    white-space: nowrap;
     z-index: 0;
 }
 
@@ -130,8 +133,8 @@ button {
 }
 
 .info-side strong {
-    font-weight: 800;
-    /* Heavier for readability */
+    font-weight: 600;
+    /* Cleaner premium weight */
     color: #111;
 }
 
