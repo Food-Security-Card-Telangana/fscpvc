@@ -54,8 +54,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const details = extractedData.details;
         const members = extractedData.members;
 
-        // Filter out HOF from the list (HOF is already in the footer)
-        const filteredMembers = members.filter(m => m.name.trim().toUpperCase() !== details.hof.trim().toUpperCase());
+        // Filter out HOF from the list using robust normalized matching
+        const normalizedHof = details.hof.trim().replace(/\s+/g, ' ').toUpperCase();
+        const filteredMembers = members.filter(m => {
+            const normalizedName = m.name.trim().replace(/\s+/g, ' ').toUpperCase();
+            return normalizedName !== normalizedHof;
+        });
+
         const frontMembers = filteredMembers.slice(0, 6);
         const backMembers = filteredMembers.length > 6 ? filteredMembers.slice(6, 12) : [];
 

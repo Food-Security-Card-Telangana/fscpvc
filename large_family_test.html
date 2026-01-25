@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Large Family Layout Test (12 Members)</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background: #f0f2f5;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .test-controls {
+            margin-bottom: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        /* CSS Copied from content.js */
+        .pvc-card {
+            width: 330px;
+            height: 210px;
+            background: white;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            margin: 15px auto;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .pvc-card::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 140px;
+            height: 140px;
+            background-image: url('assets/emblem_ts.svg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.06;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .card-header {
+            height: 38px;
+            padding: 2px 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #00897b;
+            border-bottom: 2px solid #00897b;
+            text-transform: uppercase;
+            box-sizing: border-box;
+        }
+
+        .header-logo-left {
+            height: 28px;
+            width: auto;
+        }
+
+        .header-logo-right {
+            height: 22px;
+            width: auto;
+            border-radius: 3px;
+        }
+
+        .header-title {
+            flex: 1;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.65rem;
+            line-height: 1.1;
+        }
+
+        .card-content-split {
+            display: flex;
+            padding: 10px 12px;
+            gap: 10px;
+            height: 134px;
+            box-sizing: border-box;
+        }
+
+        .info-side {
+            flex: 0 0 115px;
+            border-right: 1px solid #f0f0f0;
+            padding-right: 8px;
+        }
+
+        .info-side div {
+            margin-bottom: 3.5px;
+        }
+
+        .info-side label {
+            display: block;
+            color: #999;
+            font-size: 0.62rem;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .info-side strong {
+            font-weight: 600;
+            color: #111;
+            font-size: 0.62rem;
+        }
+
+        .row-layout {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .list-side {
+            flex: 1;
+        }
+
+        .family-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.62rem;
+        }
+
+        .family-table th {
+            text-align: left;
+            border-bottom: 1.5px solid #4db6ac;
+            color: #00897b;
+            font-size: 0.58rem;
+            padding-bottom: 2px;
+        }
+
+        .family-table td {
+            padding: 1.5px 0;
+            border-bottom: 1px solid #f7f7f7;
+        }
+
+        .card-footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 38px;
+            background: #e8f5e9;
+            border-top: 1.5px solid #4caf50;
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            box-sizing: border-box;
+        }
+
+        .hof-label {
+            font-weight: 700;
+            font-size: 0.8rem;
+            flex: 1;
+            color: #2e7d32;
+            padding-right: 45px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .qr-box {
+            background: white;
+            padding: 1px;
+            border-radius: 3px;
+            width: 34px;
+            height: 34px;
+            position: absolute;
+            bottom: 2px;
+            right: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="test-controls">
+        <h2>Simulated Test: Family with 12 Members</h2>
+        <p>This page uses the exact same rendering engine as the extension to verify overflow logic.</p>
+    </div>
+
+    <div class="container" id="card-area"></div>
+
+    <script>
+        const details = {
+            fscNo: "369400348883",
+            fscRefNo: "IRS066944261651",
+            hof: "Padishala Sridevi",
+            district: "Warangal",
+            gasConnection: "Single",
+            consumerNo: "722026",
+            fpShopNo: "4317070",
+            oldRCNo: "WAP218125300005"
+        };
+
+        const members = [
+            { sno: 1, name: "Padishala Sridevi" },
+            { sno: 2, name: "Padishala Raju" },
+            { sno: 3, name: "Jayashanker Padishala" },
+            { sno: 4, name: "Padishala Purnachandar" },
+            { sno: 5, name: "Extra Member 5" },
+            { sno: 6, name: "Extra Member 6" },
+            { sno: 7, name: "Extra Member 7" },
+            { sno: 8, name: "Extra Member 8" },
+            { sno: 9, name: "Extra Member 9" },
+            { sno: 10, name: "Extra Member 10" },
+            { sno: 11, name: "Extra Member 11" },
+            { sno: 12, name: "Extra Member 12" },
+            { sno: 13, name: "Extra Member 13" }
+        ];
+
+        function renderTest() {
+            const filteredMembers = members.filter(m => m.name.trim().toUpperCase() !== details.hof.trim().toUpperCase());
+            const frontMembers = filteredMembers.slice(0, 6);
+            const backMembers = filteredMembers.slice(6, 12); // Grab 7-12
+
+            const generateHtml = (title, list) => {
+                const rows = list.map(m => `<tr><td style="width:22px; color:#aaa;">${m.sno}</td><td style="font-weight:700;">${m.name}</td></tr>`).join('');
+                return `
+                    <div class="pvc-card">
+                        <div class="card-header">
+                            <div style="width:28px;"></div>
+                            <div class="header-title">${title} - TELANGANA<br>(${details.district})</div>
+                            <div style="width:22px;"></div>
+                        </div>
+                        <div class="card-content-split">
+                            <div class="info-side">
+                                <div><label>FSC NUMBER</label><strong>${details.fscNo}</strong></div>
+                                <div><label>REF NO</label><strong>${details.fscRefNo}</strong></div>
+                                <div><label>OLD RCNO</label><strong>${details.oldRCNo}</strong></div>
+                                <div class="row-layout"><label>GAS</label><strong>${details.gasConnection}</strong></div>
+                                <div class="row-layout"><label>CUST NO</label><strong>${details.consumerNo}</strong></div>
+                                <div class="row-layout"><label>SHOP NO</label><strong>${details.fpShopNo}</strong></div>
+                            </div>
+                            <div class="list-side">
+                                <table class="family-table">
+                                    <thead><tr><th>#</th><th>FAMILY MEMBER NAME</th></tr></thead>
+                                    <tbody>${rows || '<tr><td colspan="2" style="text-align:center; padding-top:20px; color:#ccc;">NO MORE MEMBERS</td></tr>'}</tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="hof-label">HOF: ${details.hof}</div>
+                            <div class="qr-box">
+                                <div style="font-size:8px; text-align:center;">QR PLACEHOLDER</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            };
+
+            document.getElementById('card-area').innerHTML =
+                generateHtml('FSC RATION CARD (FRONT)', frontMembers) +
+                generateHtml('FSC RATION CARD (BACK)', backMembers);
+        }
+
+        renderTest();
+    </script>
+</body>
+
+</html>
