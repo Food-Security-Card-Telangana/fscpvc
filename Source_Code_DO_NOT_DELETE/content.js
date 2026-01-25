@@ -125,11 +125,17 @@ function extractFSCData() {
 const getAsset = (path) => chrome.runtime.getURL(path);
 
 const cardStyles = `
+    body.fsc-shift-body { 
+        margin-right: 360px !important; 
+        width: calc(100% - 360px) !important; 
+        transition: margin-right 0.3s ease, width 0.3s ease;
+    }
     #fsc-preview-sidebar {
         position: fixed; top: 0; right: 0; width: 360px; height: 100vh;
         background: #f7fbfb; box-shadow: -5px 0 15px rgba(0,0,0,0.1);
         z-index: 10000; padding: 15px; overflow-y: auto; display: none;
         font-family: 'Inter', sans-serif;
+        transition: transform 0.3s ease;
     }
     #fsc-preview-sidebar.active { display: block; }
     .fsc-close-btn { position: absolute; top: 10px; left: 10px; cursor: pointer; font-size: 24px; color: #888; border:none; background:none; font-weight:bold; }
@@ -142,7 +148,7 @@ const cardStyles = `
     .card-header { height: 38px; padding: 2px 8px; display: flex; justify-content: space-between; align-items: center; color: #00897b; border-bottom: 2px solid #00897b; text-transform: uppercase; box-sizing: border-box;}
     .header-logo-left { height: 28px; width: auto; }
     .header-logo-right { height: 22px; width: auto; border-radius: 3px; }
-    .header-title { flex: 1; text-align: center; font-weight: 700; font-size: 0.72rem; line-height: 1.1; }
+    .header-title { flex: 1; text-align: center; font-weight: 700; font-size: 0.65rem; line-height: 1.1; }
     .card-content-split { display: flex; padding: 10px 12px; gap: 10px; height: 134px; box-sizing: border-box; }
     .info-side { flex: 0 0 115px; border-right: 1px solid #f0f0f0; padding-right: 8px; }
     .info-side div { margin-bottom: 3.5px; }
@@ -181,7 +187,10 @@ function setupOnPagePreview() {
     `;
     document.body.appendChild(sidebar);
 
-    sidebar.querySelector('.fsc-close-btn').onclick = () => sidebar.classList.remove('active');
+    sidebar.querySelector('.fsc-close-btn').onclick = () => {
+        sidebar.classList.remove('active');
+        document.body.classList.remove('fsc-shift-body');
+    };
 }
 
 async function downloadCard(id, fscNo, hof) {
@@ -244,7 +253,7 @@ function renderCardsOnPage(data) {
                         <div><label>REF NO</label><strong>${details.fscRefNo || '---'}</strong></div>
                         <div><label>OLD RCNO</label><strong>${details.oldRCNo || '---'}</strong></div>
                         <div class="row-layout"><label>GAS</label><strong>${details.gasConnection || '---'}</strong></div>
-                        <div class="row-layout"><label>CONSUMER NO</label><strong>${details.consumerNo || '---'}</strong></div>
+                        <div class="row-layout"><label>CUST NO</label><strong>${details.consumerNo || '---'}</strong></div>
                         <div class="row-layout"><label>SHOP NO</label><strong>${details.fpShopNo || '---'}</strong></div>
                     </div>
                     <div class="list-side">
@@ -274,6 +283,7 @@ function renderCardsOnPage(data) {
     };
 
     document.getElementById('fsc-preview-sidebar').classList.add('active');
+    document.body.classList.add('fsc-shift-body');
 }
 
 function autoDetectAndPreview() {

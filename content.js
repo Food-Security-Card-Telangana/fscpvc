@@ -148,7 +148,7 @@ const cardStyles = `
     .card-header { height: 38px; padding: 2px 8px; display: flex; justify-content: space-between; align-items: center; color: #00897b; border-bottom: 2px solid #00897b; text-transform: uppercase; box-sizing: border-box;}
     .header-logo-left { height: 28px; width: auto; }
     .header-logo-right { height: 22px; width: auto; border-radius: 3px; }
-    .header-title { flex: 1; text-align: center; font-weight: 700; font-size: 0.72rem; line-height: 1.1; }
+    .header-title { flex: 1; text-align: center; font-weight: 700; font-size: 0.65rem; line-height: 1.1; }
     .card-content-split { display: flex; padding: 10px 12px; gap: 10px; height: 134px; box-sizing: border-box; }
     .info-side { flex: 0 0 115px; border-right: 1px solid #f0f0f0; padding-right: 8px; }
     .info-side div { margin-bottom: 3.5px; }
@@ -253,7 +253,7 @@ function renderCardsOnPage(data) {
                         <div><label>REF NO</label><strong>${details.fscRefNo || '---'}</strong></div>
                         <div><label>OLD RCNO</label><strong>${details.oldRCNo || '---'}</strong></div>
                         <div class="row-layout"><label>GAS</label><strong>${details.gasConnection || '---'}</strong></div>
-                        <div class="row-layout"><label>CONSUMER NO</label><strong>${details.consumerNo || '---'}</strong></div>
+                        <div class="row-layout"><label>CUST NO</label><strong>${details.consumerNo || '---'}</strong></div>
                         <div class="row-layout"><label>SHOP NO</label><strong>${details.fpShopNo || '---'}</strong></div>
                     </div>
                     <div class="list-side">
