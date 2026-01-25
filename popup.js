@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <div><label>OLD RCNO</label><strong>${details.oldRCNo || '---'}</strong></div>
                             <div class="row-layout"><label>GAS</label><strong>${details.gasConnection || '---'}</strong></div>
                             <div class="row-layout"><label>CONSUMER NO</label><strong>${details.consumerNo || '---'}</strong></div>
-                            <div style="border:none;"><label>SHOP NO</label><strong>${details.fpShopNo || '---'}</strong></div>
+                            <div class="row-layout"><label>SHOP NO</label><strong>${details.fpShopNo || '---'}</strong></div>
                         </div>
                         <div class="list-side">
                             <table class="family-table">
