@@ -46,8 +46,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const frontMembers = filteredMembers.slice(0, 6);
         const backMembers = filteredMembers.length > 6 ? filteredMembers.slice(6, 12) : [];
 
+        // Create Data URL for QR (pointing to your GitHub Pages viewer with encoded data)
         const encodedData = btoa(encodeURIComponent(JSON.stringify(extractedData)));
-        const qrImg = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(`https://fsc-ts.purna.in/view#${encodedData}`)}`;
+        // URL is set to your GitHub repository's GH-Pages link
+        const qrUrl = `https://purnappc9.github.io/fscPVC/viewer.html#${encodedData}`;
+        const qrImg = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(qrUrl)}`;
 
         const generateSideHtml = (sideId, sideTitle, memberList) => {
             const memberRows = memberList.map(m => `<tr><td style="width:22px; color:#aaa;">${m.sno}</td><td style="font-weight:700;">${m.name}</td></tr>`).join('');
