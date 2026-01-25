@@ -41,9 +41,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const details = extractedData.details;
         const members = extractedData.members;
 
-        // Split members: 1-6 on Front, 7-12 on Back (up to 6 per side as requested)
-        const frontMembers = members.slice(0, 6);
-        const backMembers = members.length > 6 ? members.slice(6, 12) : [];
+        // Filter out HOF from the list (HOF is already in the footer)
+        const filteredMembers = members.filter(m => m.name.trim().toUpperCase() !== details.hof.trim().toUpperCase());
+        const frontMembers = filteredMembers.slice(0, 6);
+        const backMembers = filteredMembers.length > 6 ? filteredMembers.slice(6, 12) : [];
 
         const encodedData = btoa(encodeURIComponent(JSON.stringify(extractedData)));
         const qrImg = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(`https://fsc-ts.purna.in/view#${encodedData}`)}`;

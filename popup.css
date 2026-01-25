@@ -81,9 +81,11 @@ button {
 
 .card-content-split {
     display: flex;
-    padding: 12px;
+    padding: 8px 12px;
+    /* Tighter vertical padding */
     gap: 12px;
-    height: 140px;
+    height: 130px;
+    /* Reduced height to ensure no overlap with footer */
 }
 
 .info-side {
@@ -113,7 +115,8 @@ button {
 .family-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
+    /* Decreased font size */
     color: #333;
 }
 
