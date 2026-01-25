@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TS Card Generator</title>
+    <link rel="stylesheet" href="popup.css">
+    <script src="lib/html2canvas.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>TS Card Generator</h1>
+        </header>
+
+        <div id="status-message">Open EPDS Telangana search page to begin.</div>
+
+        <div id="selection-area" class="hidden">
+            <div class="info-group">
+                <label>Family ID Found:</label>
+                <select id="member-select" style="display:none;"></select>
+                <div id="display-fsc" style="font-weight: bold; color: var(--primary-color); padding: 10px 0;"></div>
+            </div>
+            <button id="family-gen-btn">Generate 2-Sided Card</button>
+        </div>
+
+        <div id="preview-area" class="hidden">
+            <div id="card-wrap" style="padding-bottom: 20px;">
+                <!-- FRONT AND BACK SIDES RENDERED HERE -->
+            </div>
+            <div class="action-buttons"
+                style="margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                <button id="back-btn" class="secondary" style="grid-column: span 2;">Back to Edit</button>
+                <button id="download-front-btn" style="background: #00897b;">Download Front</button>
+                <button id="download-btn">Download Both</button>
+            </div>
+        </div>
+    </div>
+    <script src="popup.js"></script>
+</body>
+
+</html>
