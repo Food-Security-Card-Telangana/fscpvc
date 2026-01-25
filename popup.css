@@ -1,23 +1,24 @@
+/* popup.css - Unified 2-Sided PVC Layout */
 :root {
     --primary-color: #00897b;
     --accent-color: #4db6ac;
     --bg-color: #f7fbfb;
-    --text-color: #263238
+    --text-color: #263238;
 }
 
 body {
     width: 380px;
     font-family: 'Inter', sans-serif;
     margin: 0;
-    background-color: var(--bg-color)
+    background-color: var(--bg-color);
 }
 
 .container {
-    padding: 16px
+    padding: 16px;
 }
 
 .hidden {
-    display: none
+    display: none;
 }
 
 header {
@@ -26,12 +27,12 @@ header {
     padding: 12px;
     text-align: center;
     border-radius: 8px 8px 0 0;
-    margin: -16px -16px 16px -16px
+    margin: -16px -16px 16px -16px;
 }
 
 header h1 {
     font-size: 1.1rem;
-    margin: 0
+    margin: 0;
 }
 
 .info-group {
@@ -39,7 +40,7 @@ header h1 {
     padding: 10px;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    margin-bottom: 12px
+    margin-bottom: 12px;
 }
 
 button {
@@ -51,21 +52,24 @@ button {
     border-radius: 6px;
     cursor: pointer;
     font-weight: bold;
-    margin-bottom: 8px
+    margin-bottom: 8px;
 }
 
+/* PVC CARD SHARED STYLES */
 .pvc-card {
     width: 330px;
     height: 210px;
+    /* Adjusted for better footer fit */
     background: white;
     border-radius: 10px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     position: relative;
     overflow: hidden;
     margin: 10px auto;
-    border: 1px solid #e0e0e0
+    border: 1px solid #e0e0e0;
 }
 
+/* Subtle Ink-Efficient Official Seal Watermark */
 .pvc-card::before {
     content: "";
     position: absolute;
@@ -79,8 +83,9 @@ button {
     background-repeat: no-repeat;
     background-position: center;
     opacity: 0.06;
+    /* Extremely faint for luxury feel and ink saving */
     pointer-events: none;
-    z-index: 0
+    z-index: 0;
 }
 
 .card-header {
@@ -91,18 +96,18 @@ button {
     align-items: center;
     color: var(--primary-color);
     border-bottom: 2px solid var(--primary-color);
-    text-transform: uppercase
+    text-transform: uppercase;
 }
 
 .header-logo-left {
     height: 30px;
-    width: auto
+    width: auto;
 }
 
 .header-logo-right {
     height: 24px;
     width: auto;
-    border-radius: 3px
+    border-radius: 3px;
 }
 
 .header-title {
@@ -111,14 +116,15 @@ button {
     font-weight: 700;
     font-size: 0.72rem;
     line-height: 1.1;
-    letter-spacing: 0.4px
+    letter-spacing: 0.4px;
 }
 
 .card-content-split {
     display: flex;
     padding: 10px 12px;
     gap: 12px;
-    height: 135px
+    height: 135px;
+    /* Slightly more height for content */
 }
 
 .info-side {
@@ -126,11 +132,12 @@ button {
     font-size: 0.68rem;
     border-right: 1px solid #f0f0f0;
     padding-right: 10px;
-    color: var(--text-color)
+    color: var(--text-color);
 }
 
 .info-side div {
-    margin-bottom: 3.5px
+    margin-bottom: 3.5px;
+    /* Reduced from 5px to prevent overlap */
 }
 
 .info-side label {
@@ -139,35 +146,37 @@ button {
     font-size: 0.62rem;
     font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.2px
+    letter-spacing: 0.2px;
 }
 
 .info-side strong {
     font-weight: 600;
     color: #111;
-    font-size: 0.62rem
+    font-size: 0.62rem;
 }
 
 .info-side div.row-layout {
     display: flex;
     justify-content: space-between;
-    align-items: center
+    align-items: center;
 }
 
 .info-side div.row-layout label {
     margin-bottom: 0;
-    font-size: 0.62rem
+    font-size: 0.62rem;
+    /* Ensuring consistency in row layout */
 }
 
 .list-side {
-    flex: 1
+    flex: 1;
 }
 
 .family-table {
     width: 100%;
     border-collapse: collapse;
     font-size: 0.65rem;
-    color: #333
+    /* Decreased font size */
+    color: #333;
 }
 
 .family-table th {
@@ -175,12 +184,13 @@ button {
     padding-bottom: 4px;
     border-bottom: 1.5px solid var(--accent-color);
     color: var(--primary-color);
-    font-size: 0.58rem
+    font-size: 0.58rem;
 }
 
 .family-table td {
     padding: 2px 0;
-    border-bottom: 1px solid #f7f7f7
+    /* Reduced line-to-line space */
+    border-bottom: 1px solid #f7f7f7;
 }
 
 .card-footer {
@@ -189,19 +199,22 @@ button {
     width: 100%;
     height: 38px;
     background: #e8f5e9;
+    /* Light Green background */
     border-top: 1.5px solid #4caf50;
+    /* Green border */
     display: flex;
     align-items: center;
     padding: 0 15px;
     box-sizing: border-box;
-    color: #2e7d32
+    color: #2e7d32;
+    /* Dark Green text for HOF */
 }
 
 .hof-label {
     font-weight: 700;
     font-size: 0.8rem;
     flex: 1;
-    color: #2e7d32
+    color: #2e7d32;
 }
 
 .qr-box {
@@ -216,5 +229,5 @@ button {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
-    justify-content: center
+    justify-content: center;
 }
