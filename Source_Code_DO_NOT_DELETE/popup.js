@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ks: details.keyRegisterSlNo,
             os: details.oldRCNo,
             vt: new Date().toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' }),
-            m: members.map(m => m.name.substring(0, 20)) // Keep names short for QR
+            m: members.map(m => m.name) // Full names for QR
         };
 
         // Use btoa with encodeURIComponent for safe URL passing
