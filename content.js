@@ -106,8 +106,67 @@ function extractFSCData() {
     return data;
 }
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.action === "extract") {
-        sendResponse(extractFSCData());
-    }
-});
+// content.js - Ultra-Resilient Extraction & Direct Download for EPDS Telangana
+console.log("Telangana FSC Content Script: Direct Download Active");
+
+// ... (existing extractFSCData remains same above or inside) ...
+
+// Function to inject the button
+function injectActionButton() {
+    if (document.getElementById('fsc-direct-download-btn')) return;
+
+    const targetTable = Array.from(document.querySelectorAll('table')).find(t => t.innerText.includes('RATION CARD DETAILS'));
+    if (!targetTable) return;
+
+    const btn = document.createElement('button');
+    btn.id = 'fsc-direct-download-btn';
+    btn.innerText = '⚡ GENERATE PVC CARDS NOW';
+    btn.style.cssText = `
+        background: #00897b;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        font-weight: bold;
+        border-radius: 6px;
+        cursor: pointer;
+        margin: 20px 0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        font-family: sans-serif;
+    `;
+
+    btn.onclick = async () => {
+        btn.innerText = '⌛ PROCESSING...';
+        btn.disabled = true;
+
+        try {
+            const data = extractFSCData();
+            if (!data.details.fscNo) {
+                alert("Please wait for the page to load or search again.");
+                return;
+            }
+
+            // Tell the background script to handle the download/render if needed, 
+            // but the user asked for a "Download Button on the Page".
+            // So we send a message to the background or popup? 
+            // Better: Open the popup-like view in a fixed overlay or just send to background to open a specialized tab.
+
+            // For maximum "WOW", we will trigger the popup logic from here:
+            chrome.runtime.sendMessage({ action: "generate_from_page", data: data });
+            btn.innerText = '✅ REQUESTED! CHECK POPUP';
+
+        } catch (e) {
+            console.error(e);
+            btn.innerText = '❌ ERROR';
+        }
+
+        setTimeout(() => {
+            btn.innerText = '⚡ GENERATE PVC CARDS NOW';
+            btn.disabled = false;
+        }, 3000);
+    };
+
+    targetTable.parentNode.insertBefore(btn, targetTable);
+}
+
+// Watch for page changes (since portal uses postback/frames)
+setInterval(injectActionButton, 2000);

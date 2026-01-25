@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "Telangana Card Generator",
+  "version": "1.0",
+  "description": "Generate Ayushman Bharat style cards from Telangana FSC data.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://epds.telangana.gov.in/*"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://epds.telangana.gov.in/*"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ]
+}
