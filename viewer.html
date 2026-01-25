@@ -158,10 +158,11 @@
 
     <script>
         try {
-            const hash = window.location.hash.substring(1);
-            if (!hash) throw new Error("No data");
+            const urlParams = new URLSearchParams(window.location.search);
+            const encodedData = urlParams.get('d');
+            if (!encodedData) throw new Error("No data");
 
-            const data = JSON.parse(decodeURIComponent(escape(atob(hash))));
+            const data = JSON.parse(decodeURIComponent(atob(encodedData)));
 
             const mapping = [
                 ['New Ration Card No', data.f],
