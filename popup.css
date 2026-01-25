@@ -90,24 +90,24 @@ button {
 
 .card-header {
     background: transparent;
-    padding: 8px;
+    padding: 6px 8px;
+    /* Reduced vertical padding from 8px */
     text-align: center;
     color: var(--primary-color);
     font-weight: 700;
-    /* Reduced from 900 for a cleaner look */
-    font-size: 0.85rem;
-    letter-spacing: 0.8px;
+    font-size: 0.82rem;
+    /* Slightly smaller */
+    letter-spacing: 0.6px;
     border-bottom: 2px solid var(--primary-color);
     text-transform: uppercase;
 }
 
 .card-content-split {
     display: flex;
-    padding: 8px 12px;
-    /* Tighter vertical padding */
+    padding: 10px 12px;
     gap: 12px;
-    height: 130px;
-    /* Reduced height to ensure no overlap with footer */
+    height: 135px;
+    /* Slightly more height for content */
 }
 
 .info-side {
@@ -119,7 +119,8 @@ button {
 }
 
 .info-side div {
-    margin-bottom: 5px;
+    margin-bottom: 3.5px;
+    /* Reduced from 5px to prevent overlap */
 }
 
 .info-side label {
