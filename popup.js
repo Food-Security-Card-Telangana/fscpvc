@@ -79,7 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="info-side">
                             <div><label>FSC NUMBER</label><strong>${details.fscNo || '---'}</strong></div>
                             <div><label>REF NO</label><strong>${details.fscRefNo || '---'}</strong></div>
-                            <div><label>DISTRICT</label><strong>${details.district || '---'}</strong></div>
                             <div><label>OLD RCNO</label><strong>${details.oldRCNo || '---'}</strong></div>
                             <div><label>GAS</label><strong>${details.gasConnection || '---'}</strong></div>
                             <div><label>CONSUMER NO</label><strong>${details.consumerNo || '---'}</strong></div>
