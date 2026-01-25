@@ -10,42 +10,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let extractedData = null;
 
-    // 1. Initial Data Extraction or Auto-Load
-    const urlParams = new URLSearchParams(window.location.search);
-    const isAuto = urlParams.get('auto') === 'true';
+    // 1. Initial Data Extraction
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        const activeTab = tabs[0];
+        const isPortal = activeTab && activeTab.url && (
+            activeTab.url.toLowerCase().includes('epds.telangana.gov.in') ||
+            activeTab.url.toLowerCase().includes('telangana.gov.in')
+        );
 
-    if (isAuto) {
-        chrome.storage.local.get(["pending_data"], (result) => {
-            if (result.pending_data) {
-                extractedData = result.pending_data;
-                statusMsg.classList.add('hidden');
-                selectionArea.classList.add('hidden');
-                previewArea.classList.remove('hidden');
-                renderTwoSidesUnified();
-            }
-        });
-    } else {
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-            const activeTab = tabs[0];
-            const isPortal = activeTab && activeTab.url && (
-                activeTab.url.toLowerCase().includes('epds.telangana.gov.in') ||
-                activeTab.url.toLowerCase().includes('telangana.gov.in')
-            );
-
-            if (isPortal) {
-                chrome.tabs.sendMessage(activeTab.id, { action: "extract" }, (response) => {
-                    if (response && response.details && response.details.fscNo) {
-                        extractedData = response;
-                        statusMsg.classList.add('hidden');
-                        selectionArea.classList.remove('hidden');
-                        document.getElementById('display-fsc').innerText = "FSC NO: " + response.details.fscNo;
-                    } else {
-                        statusMsg.innerText = "Please search for a Ration Card first.";
-                    }
-                });
-            }
-        });
-    }
+        if (isPortal) {
+            chrome.tabs.sendMessage(activeTab.id, { action: "extract" }, (response) => {
+                if (response && response.details && response.details.fscNo) {
+                    extractedData = response;
+                    statusMsg.classList.add('hidden');
+                    selectionArea.classList.remove('hidden');
+                    document.getElementById('display-fsc').innerText = "FSC NO: " + response.details.fscNo;
+                } else {
+                    statusMsg.innerText = "Please search for a Ration Card first.";
+                }
+            });
+        }
+    });
 
     familyGenBtn.addEventListener('click', () => {
         selectionArea.classList.add('hidden');
