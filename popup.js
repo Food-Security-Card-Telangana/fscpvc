@@ -135,7 +135,8 @@ document.addEventListener('DOMContentLoaded', () => {
             height: 210
         });
         const link = document.createElement('a');
-        link.download = `FSC_Front_${extractedData.details.fscNo}.png`;
+        const safeHof = extractedData.details.hof.replace(/[^a-z0-9]/gi, '_');
+        link.download = `FSC_${extractedData.details.fscNo}_${safeHof}_Front.png`;
         link.href = canvas.toContentDataURL ? canvas.toContentDataURL('image/png', 1.0) : canvas.toDataURL('image/png', 1.0);
         link.click();
     });
@@ -152,7 +153,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 height: 210
             });
             const link = document.createElement('a');
-            link.download = `FSC_${sideId === 'card-front' ? 'Front' : 'Back'}_${extractedData.details.fscNo}.png`;
+            const side = sideId === 'card-front' ? 'Front' : 'Back';
+            const safeHof = extractedData.details.hof.replace(/[^a-z0-9]/gi, '_');
+            link.download = `FSC_${extractedData.details.fscNo}_${safeHof}_${side}.png`;
             link.href = canvas.toDataURL('image/png', 1.0);
             link.click();
             await new Promise(r => setTimeout(r, 600));

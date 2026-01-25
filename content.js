@@ -168,20 +168,22 @@ function setupOnPagePreview() {
 
     sidebar.querySelector('.fsc-close-btn').onclick = () => sidebar.classList.remove('active');
 
-    document.getElementById('fsc-dl-front').onclick = () => downloadCard('card-front');
+    document.getElementById('fsc-dl-front').onclick = () => downloadCard('card-front', details.fscNo, details.hof);
     document.getElementById('fsc-dl-both').onclick = async () => {
-        await downloadCard('card-front');
-        setTimeout(() => downloadCard('card-back'), 800);
+        await downloadCard('card-front', details.fscNo, details.hof);
+        setTimeout(() => downloadCard('card-back', details.fscNo, details.hof), 800);
     };
 }
 
-async function downloadCard(id) {
+async function downloadCard(id, fscNo, hof) {
     const el = document.getElementById(id);
     if (!el) return;
     try {
         const canvas = await html2canvas(el, { scale: 5, useCORS: true, backgroundColor: '#ffffff', width: 330, height: 210 });
         const link = document.createElement('a');
-        link.download = `FSC_${id === 'card-front' ? 'Front' : 'Back'}.png`;
+        const side = id === 'card-front' ? 'Front' : 'Back';
+        const safeHof = hof.replace(/[^a-z0-9]/gi, '_'); // Make HOF filename safe
+        link.download = `FSC_${fscNo}_${safeHof}_${side}.png`;
         link.href = canvas.toDataURL('image/png', 1.0);
         link.click();
     } catch (e) { console.error("Canvas error:", e); }
