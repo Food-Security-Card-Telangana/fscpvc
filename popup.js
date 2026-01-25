@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const familyGenBtn = document.getElementById('family-gen-btn');
     const backBtn = document.getElementById('back-btn');
     const downloadBtn = document.getElementById('download-btn');
+    const downloadFrontBtn = document.getElementById('download-front-btn');
     const cardWrap = document.getElementById('card-wrap');
 
     let extractedData = null;
@@ -106,6 +107,21 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `;
     }
+
+    downloadFrontBtn.addEventListener('click', async () => {
+        const el = document.getElementById('card-front');
+        const canvas = await html2canvas(el, {
+            scale: 6,
+            useCORS: true,
+            backgroundColor: '#ffffff',
+            width: 330,
+            height: 210
+        });
+        const link = document.createElement('a');
+        link.download = `FSC_Front_${extractedData.details.fscNo}.png`;
+        link.href = canvas.toContentDataURL ? canvas.toContentDataURL('image/png', 1.0) : canvas.toDataURL('image/png', 1.0);
+        link.click();
+    });
 
     downloadBtn.addEventListener('click', async () => {
         const sides = ['card-front', 'card-back'];

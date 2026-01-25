@@ -30,9 +30,11 @@
             <div id="card-wrap" style="padding-bottom: 20px;">
                 <!-- FRONT AND BACK SIDES RENDERED HERE -->
             </div>
-            <div class="action-buttons" style="margin-top: 10px; display: flex; gap: 10px;">
-                <button id="back-btn" class="secondary">Back</button>
-                <button id="download-btn">Download Both Sides</button>
+            <div class="action-buttons"
+                style="margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                <button id="back-btn" class="secondary" style="grid-column: span 2;">Back to Edit</button>
+                <button id="download-front-btn" style="background: #00897b;">Download Front</button>
+                <button id="download-btn">Download Both</button>
             </div>
         </div>
     </div>
