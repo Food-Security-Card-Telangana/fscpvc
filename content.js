@@ -125,11 +125,17 @@ function extractFSCData() {
 const getAsset = (path) => chrome.runtime.getURL(path);
 
 const cardStyles = `
+    body.fsc-shift-body { 
+        margin-right: 360px !important; 
+        width: calc(100% - 360px) !important; 
+        transition: margin-right 0.3s ease, width 0.3s ease;
+    }
     #fsc-preview-sidebar {
         position: fixed; top: 0; right: 0; width: 360px; height: 100vh;
         background: #f7fbfb; box-shadow: -5px 0 15px rgba(0,0,0,0.1);
         z-index: 10000; padding: 15px; overflow-y: auto; display: none;
         font-family: 'Inter', sans-serif;
+        transition: transform 0.3s ease;
     }
     #fsc-preview-sidebar.active { display: block; }
     .fsc-close-btn { position: absolute; top: 10px; left: 10px; cursor: pointer; font-size: 24px; color: #888; border:none; background:none; font-weight:bold; }
@@ -181,7 +187,10 @@ function setupOnPagePreview() {
     `;
     document.body.appendChild(sidebar);
 
-    sidebar.querySelector('.fsc-close-btn').onclick = () => sidebar.classList.remove('active');
+    sidebar.querySelector('.fsc-close-btn').onclick = () => {
+        sidebar.classList.remove('active');
+        document.body.classList.remove('fsc-shift-body');
+    };
 }
 
 async function downloadCard(id, fscNo, hof) {
