@@ -201,32 +201,35 @@ function renderCardsOnPage(data) {
     const qrImgSrc = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrUrl)}&margin=0`;
 
     const generateHtml = (id, title, list) => {
-        const rows = list.map(m => `<tr><td style="width:20px; color:#aaa;">${m.sno}</td><td style="font-weight:700;">${m.name}</td></tr>`).join('');
+        const rows = list.map(m => `<tr><td style="width:22px; color:#aaa;">${m.sno}</td><td style="font-weight:700;">${m.name}</td></tr>`).join('');
         return `
             <div id="${id}" class="pvc-card">
                 <div class="card-header">
                     <img src="${getAsset("assets/emblem_ts.svg")}" class="header-logo-left">
-                    <div class="header-title">${title}<br>(${details.district || '---'})</div>
+                    <div class="header-title">${title} - TELANGANA<br>(${details.district || '---'})</div>
                     <img src="${getAsset("assets/fsc_logo.png")}" class="header-logo-right">
                 </div>
                 <div class="card-content-split">
                     <div class="info-side">
                         <div><label>FSC NUMBER</label><strong>${details.fscNo || '---'}</strong></div>
                         <div><label>REF NO</label><strong>${details.fscRefNo || '---'}</strong></div>
+                        <div><label>OLD RCNO</label><strong>${details.oldRCNo || '---'}</strong></div>
                         <div class="row-layout"><label>GAS</label><strong>${details.gasConnection || '---'}</strong></div>
-                        <div class="row-layout"><label>CUS NO</label><strong>${details.consumerNo || '---'}</strong></div>
-                        <div class="row-layout"><label>SHOP</label><strong>${details.fpShopNo || '---'}</strong></div>
+                        <div class="row-layout"><label>CONSUMER NO</label><strong>${details.consumerNo || '---'}</strong></div>
+                        <div class="row-layout"><label>SHOP NO</label><strong>${details.fpShopNo || '---'}</strong></div>
                     </div>
                     <div class="list-side">
                         <table class="family-table">
                             <thead><tr><th>#</th><th>FAMILY MEMBER NAME</th></tr></thead>
-                            <tbody>${rows || '<tr><td colspan="2" style="text-align:center; padding-top:20px; color:#ccc;">NO MORE</td></tr>'}</tbody>
+                            <tbody>${rows || '<tr><td colspan="2" style="text-align:center; padding-top:20px; color:#ccc;">NO MORE MEMBERS</td></tr>'}</tbody>
                         </table>
                     </div>
                 </div>
                 <div class="card-footer">
                     <div class="hof-label">HOF: ${details.hof}</div>
-                    <div class="qr-box"><img src="${qrImgSrc}" width="32" height="32"></div>
+                    <div class="qr-box">
+                        <img src="${qrImgSrc}" width="34" height="34">
+                    </div>
                 </div>
             </div>
         `;
