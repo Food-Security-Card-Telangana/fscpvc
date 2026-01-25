@@ -74,7 +74,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             return `
                 <div id="${sideId}" class="pvc-card">
-                    <div class="card-header">${sideTitle} - TELANGANA (${details.district || '---'})</div>
+                    <div class="card-header">
+                        <img src="https://upload.wikimedia.org/wikipedia/en/6/61/Emblem_of_Telangana.svg" class="header-logo-left">
+                        <div class="header-title">${sideTitle} - TELANGANA<br>(${details.district || '---'})</div>
+                        <img src="https://play-lh.googleusercontent.com/CQ98ZfUgi873NsYhoKd5ww9e9lj7p1zOC_TfHgudu1juqp6PvjSR0SrTHCziH-1IXx49qVn03jqAECdfdZzo=w600-h300-pc0xffffff-pd" class="header-logo-right">
+                    </div>
                     <div class="card-content-split">
                         <div class="info-side">
                             <div><label>FSC NUMBER</label><strong>${details.fscNo || '---'}</strong></div>
