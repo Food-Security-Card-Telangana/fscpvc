@@ -116,9 +116,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
                     </div>
                     <div class="card-footer">
-                        <div class="hof-label">HOF: ${details.hof}</div>
-                        <div class="qr-box">
-                            <img src="${qrImg}" width="34" height="34">
+                        <div class="hof-label" style="padding-right: 60px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">HOF: ${details.hof}</div>
+                        <div class="qr-box" style="background: white; padding: 1.5px; border-radius: 4px; width: 54px; height: 54px; position: absolute; bottom: 4px; right: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.12); display: flex; align-items: center; justify-content: center; z-index: 10;">
+                            <img src="${qrImg}" width="52" height="52">
                         </div>
                     </div>
                 </div>

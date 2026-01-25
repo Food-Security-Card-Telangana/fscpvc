@@ -202,11 +202,12 @@
             const rows = document.getElementById('member-rows');
             if (data.m && data.m.length > 0) {
                 data.m.forEach((name, i) => {
+                    const isHof = (data.h && name) ? (data.h.trim().toUpperCase() === name.trim().toUpperCase()) : false;
                     rows.innerHTML += `
                         <tr>
                             <td>${i + 1}</td>
-                            <td>${name}</td>
-                            <td>${data.h.trim().toUpperCase() === name.trim().toUpperCase() ? 'Head of Family' : 'Member'}</td>
+                            <td>${name || '---'}</td>
+                            <td>${isHof ? 'Head of Family' : 'Member'}</td>
                         </tr>
                     `;
                 });

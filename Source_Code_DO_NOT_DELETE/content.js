@@ -154,8 +154,8 @@ const cardStyles = `
     .family-table th { text-align: left; border-bottom: 1.5px solid #4db6ac; color: #00897b; font-size: 0.58rem; padding-bottom: 2px; }
     .family-table td { padding: 1.5px 0; border-bottom: 1px solid #f7f7f7; }
     .card-footer { position: absolute; bottom: 0; width: 100%; height: 38px; background: #e8f5e9; border-top: 1.5px solid #4caf50; display: flex; align-items: center; padding: 0 12px; box-sizing: border-box; }
-    .hof-label { font-weight: 700; font-size: 0.78rem; flex: 1; color: #2e7d32; }
-    .qr-box { background: white; width: 32px; height: 32px; border-radius: 3px; display: flex; align-items: center; justify-content: center; }
+    .hof-label { font-weight: 700; font-size: 0.8rem; flex: 1; color: #2e7d32; padding-right: 60px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .qr-box { background: white; padding: 1.5px; border-radius: 4px; width: 54px; height: 54px; position: absolute; bottom: 4px; right: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.12); display: flex; align-items: center; justify-content: center; z-index: 10; }
 `;
 
 let lastDetectedFsc = null;
@@ -215,18 +215,20 @@ function renderCardsOnPage(data) {
     const qrRawData = {
         f: details.fscNo,
         r: details.fscRefNo,
-        h: details.hof,
-        d: details.district,
         ct: details.cardType,
         as: details.applicationStatus,
         an: details.applicationNo,
         sn: details.sksFormNo,
         on: details.officeName,
+        fs: details.fpShopNo,
+        h: details.hof,
+        d: details.district,
         is: details.impdsStatus,
         gc: details.gasConnection,
         cn: details.consumerNo,
         ks: details.keyRegisterSlNo,
         os: details.oldRCNo,
+        vt: new Date().toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' }),
         m: members.map(m => m.name)
     };
     const encoded = btoa(encodeURIComponent(JSON.stringify(qrRawData)));
@@ -259,9 +261,9 @@ function renderCardsOnPage(data) {
                     </div>
                 </div>
                 <div class="card-footer">
-                    <div class="hof-label">HOF: ${details.hof}</div>
+                    <div class="hof-label" title="HOF: ${details.hof}">HOF: ${details.hof}</div>
                     <div class="qr-box">
-                        <img src="${qrImgSrc}" width="34" height="34">
+                        <img src="${qrImgSrc}" width="52" height="52">
                     </div>
                 </div>
             </div>
