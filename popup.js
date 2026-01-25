@@ -63,7 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Use btoa with encodeURIComponent for safe URL passing
         const encodedData = btoa(encodeURIComponent(JSON.stringify(qrData)));
-        const qrUrl = `https://purnappc9.github.io/fscPVC/viewer.html?d=${encodedData}`; // Changed # to ? for better parameter handling
+        // URL is set to your new Organization repository's GH-Pages link
+        const qrUrl = `https://food-security-card-telangana.github.io/fscpvc/viewer.html?d=${encodedData}`;
 
         // Increased size to 250 and added margin=0 for better display in the small box
         const qrImg = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(qrUrl)}&margin=0&ecc=L`;
