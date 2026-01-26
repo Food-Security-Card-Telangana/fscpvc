@@ -112,9 +112,21 @@ function extractFSCData() {
         }
     });
 
+    // 3. Post-Extraction Fixes
     // Clean up District
     if (data.details.district) {
         data.details.district = data.details.district.replace(/[.:]+$/, '').trim();
+    }
+
+    // Handle Masked HOF: If HOF is 'xxxx', try to get it from member list (usually S.No 1)
+    const isMasked = (val) => val && (val.toLowerCase().includes('xxxx') || val.trim() === '---' || !val.trim());
+    if (isMasked(data.details.hof)) {
+        console.log("HOF name is masked, attempting fallback to member list...");
+        const firstMember = data.members.find(m => m.sno === 1);
+        if (firstMember) {
+            data.details.hof = firstMember.name;
+            console.log("Fallback HOF identified:", data.details.hof);
+        }
     }
 
     console.log("Extraction Results:", data);

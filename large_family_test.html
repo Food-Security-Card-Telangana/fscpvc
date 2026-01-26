@@ -208,7 +208,7 @@
         const details = {
             fscNo: "369400348883",
             fscRefNo: "IRS066944261651",
-            hof: "Padishala Sridevi",
+            hof: "xxxx", // SIMULATED MASKED NAME
             district: "Warangal",
             gasConnection: "Single",
             consumerNo: "722026",
@@ -233,6 +233,13 @@
         ];
 
         function renderTest() {
+            // Simulated Fallback Logic (same as content.js)
+            const isMasked = (val) => val && (val.toLowerCase().includes('xxxx') || val.trim() === '---' || !val.trim());
+            if (isMasked(details.hof)) {
+                const firstMember = members.find(m => m.sno === 1);
+                if (firstMember) details.hof = firstMember.name;
+            }
+
             const normalizedHof = details.hof.trim().replace(/\s+/g, ' ').toUpperCase();
             let displayMembers = members.filter(m => {
                 const normalizedName = m.name.trim().replace(/\s+/g, ' ').toUpperCase();
