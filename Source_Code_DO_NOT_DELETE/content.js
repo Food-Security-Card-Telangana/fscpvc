@@ -163,10 +163,10 @@ const cardStyles = `
     .header-title { flex: 1; text-align: center; font-weight: 700; font-size: 0.62rem; line-height: 1.1; }
     .card-content-split { display: flex; padding: 10px 12px; gap: 12px; height: 134px; box-sizing: border-box; }
     .info-side { flex: 0 0 120px; border-right: 1px solid #f0f0f0; padding-right: 10px; }
-    .info-side div { margin-bottom: 5px; }
+    .info-side div { margin-bottom: 3.5px; }
     .info-side label { display: block; color: #888; font-size: 0.52rem; font-weight: 700; text-transform: uppercase; margin-bottom: 1px; }
-    .info-side strong { font-weight: 600; color: #111; font-size: 0.62rem; line-height: 1.1; }
-    .fsc-number-val { font-size: 0.88rem !important; font-weight: 900; color: #000; letter-spacing: 0.3px; margin: 3px 0 6px 0; display: block; }
+    .info-side strong { font-weight: 600; color: #111; font-size: 0.62rem; line-height: 1; }
+    .fsc-number-val { font-size: 0.88rem !important; font-weight: 900; color: #000; letter-spacing: 0.3px; margin: 1px 0 3px 0; display: block; }
     .row-layout { display: flex; justify-content: space-between; align-items: center; }
     .list-side { flex: 1; }
     .family-table { width: 100%; border-collapse: collapse; font-size: 0.62rem; }
