@@ -172,9 +172,10 @@ const cardStyles = `
     .family-table { width: 100%; border-collapse: collapse; font-size: 0.62rem; }
     .family-table th { text-align: left; border-bottom: 1.5px solid #4db6ac; color: #00897b; font-size: 0.58rem; padding-bottom: 2px; }
     .family-table td { padding: 1px 0; border-bottom: 1px solid #f7f7f7; font-size: 0.61rem; }
-    .card-footer { position: absolute; bottom: 0; width: 100%; height: 38px; background: #e8f5e9; border-top: 1.5px solid #4caf50; display: flex; align-items: center; padding: 0 12px; box-sizing: border-box; }
-    .hof-label { font-weight: 700; font-size: 0.8rem; flex: 1; color: #2e7d32; padding-right: 45px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-    .qr-box { background: white; padding: 1px; border-radius: 3px; width: 34px; height: 34px; position: absolute; bottom: 2px; right: 8px; display: flex; align-items: center; justify-content: center; z-index: 10; }
+    .card-footer { position: absolute; bottom: 0; width: 100%; height: 90px; background: #e8f5e9; border-top: 1.5px solid #4caf50; display: flex; flex-direction: column; align-items: flex-start; padding: 5px 12px; box-sizing: border-box; }
+    .hof-label { font-weight: 800; font-size: 0.85rem; color: #1b5e20; width: 70%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; margin-top: 5px; }
+    .qr-box { background: white; padding: 4px; border: 1px solid #4caf50; border-radius: 4px; width: 80px; height: 80px; position: absolute; bottom: 5px; right: 8px; display: flex; align-items: center; justify-content: center; z-index: 10; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .qr-box img { width: 100%; height: 100%; image-rendering: pixelated; }
 `;
 
 let lastDetectedFsc = null;
@@ -241,28 +242,18 @@ function renderCardsOnPage(data) {
     const frontMembers = displayMembers.slice(0, frontMax);
     const backMembers = displayMembers.length > frontMax ? displayMembers.slice(frontMax, 18) : [];
 
+    // STAGE 2: Simplified QR Logic for Print-Scannability
     const qrRawData = {
         f: details.fscNo,
-        r: details.fscRefNo,
-        ct: details.cardType,
-        as: details.applicationStatus,
-        an: details.applicationNo,
-        sn: details.sksFormNo,
-        on: details.officeName,
-        fs: details.fpShopNo,
         h: details.hof,
+        r: details.fscRefNo,
         d: details.district,
-        is: details.impdsStatus,
-        gc: details.gasConnection,
-        cn: details.consumerNo,
-        ks: details.keyRegisterSlNo,
-        os: details.oldRCNo,
-        vt: new Date().toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' }),
-        m: members.map(m => m.name.substring(0, 20))
+        m: members.slice(0, 5).map(m => m.name.substring(0, 15)) // Only first 5 members, truncated
     };
     const encoded = btoa(encodeURIComponent(JSON.stringify(qrRawData)));
     const qrUrl = `https://food-security-card-telangana.github.io/fscpvc/viewer.html?d=${encoded}`;
-    const qrImgSrc = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(qrUrl)}&margin=0&ecc=L`;
+    // Using ECC Level M (Medium) for better dot size balance, and 300x300 for sharp print capture
+    const qrImgSrc = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(qrUrl)}&margin=1&ecc=M`;
 
     const generateHtml = (id, title, list) => {
         const rows = list.map(m => `<tr><td style="width:22px; color:#aaa;">${m.sno}</td><td style="font-weight:700;">${m.name}</td></tr>`).join('');

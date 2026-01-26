@@ -71,35 +71,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const frontMembers = displayMembers.slice(0, frontMax);
         const backMembers = displayMembers.length > frontMax ? displayMembers.slice(frontMax, 18) : [];
 
-        // Create Data URL for QR (pointing to your GitHub Pages viewer with encoded data)
-        // Optimized: only encode necessary data to keep QR density low and scannable
+        // STAGE 2: Simplified QR Logic for Print-Scannability
         const qrData = {
             f: details.fscNo,
-            r: details.fscRefNo,
-            ct: details.cardType,
-            as: details.applicationStatus,
-            an: details.applicationNo,
-            sn: details.sksFormNo,
-            on: details.officeName,
-            fs: details.fpShopNo,
             h: details.hof,
+            r: details.fscRefNo,
             d: details.district,
-            is: details.impdsStatus,
-            gc: details.gasConnection,
-            cn: details.consumerNo,
-            ks: details.keyRegisterSlNo,
-            os: details.oldRCNo,
-            vt: new Date().toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' }),
-            m: members.map(m => m.name.substring(0, 20)) // Truncate for scannability
+            m: members.slice(0, 5).map(m => m.name.substring(0, 15)) // Truncate for scannability
         };
 
         // Use btoa with encodeURIComponent for safe URL passing
         const encodedData = btoa(encodeURIComponent(JSON.stringify(qrData)));
-        // URL is set to your new Organization repository's GH-Pages link
         const qrUrl = `https://food-security-card-telangana.github.io/fscpvc/viewer.html?d=${encodedData}`;
-
-        // Increased size to 250 and added margin=0 for better display in the small box
-        const qrImg = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(qrUrl)}&margin=0&ecc=L`;
+        // Using ECC Level M (Medium) for better dot size balance, and 300x300 for sharp print capture
+        const qrImg = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(qrUrl)}&margin=1&ecc=M`;
 
         const generateSideHtml = (sideId, sideTitle, memberList) => {
             const memberRows = memberList.map(m => `<tr><td style="width:22px; color:#aaa;">${m.sno}</td><td style="font-weight:700;">${m.name}</td></tr>`).join('');
@@ -128,9 +113,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
                     </div>
                     <div class="card-footer">
-                        <div class="hof-label">HOF: ${details.hof}</div>
+                        <div class="hof-label" style="font-weight:800;">HOF: ${details.hof}</div>
                         <div class="qr-box">
-                            <img src="${qrImg}" width="34" height="34">
+                            <img src="${qrImg}">
                         </div>
                     </div>
                 </div>

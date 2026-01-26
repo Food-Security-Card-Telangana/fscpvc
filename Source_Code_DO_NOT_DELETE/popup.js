@@ -66,8 +66,10 @@ document.addEventListener('DOMContentLoaded', () => {
             displayMembers = members;
         }
 
-        const frontMembers = displayMembers.slice(0, 6);
-        const backMembers = displayMembers.length > 6 ? displayMembers.slice(6, 12) : [];
+        // Auto-fix for up to 9 members on the first side
+        const frontMax = 9;
+        const frontMembers = displayMembers.slice(0, frontMax);
+        const backMembers = displayMembers.length > frontMax ? displayMembers.slice(frontMax, 18) : [];
 
         // Create Data URL for QR (pointing to your GitHub Pages viewer with encoded data)
         // Optimized: only encode necessary data to keep QR density low and scannable

@@ -197,9 +197,11 @@ button {
 }
 
 .family-table td {
-    padding: 2px 0;
-    /* Reduced line-to-line space */
-    border-bottom: 1px solid #f7f7f7;
+    padding: 1px 0;
+    border-bottom: 1px solid #f9f9f9;
+    color: #111;
+    font-size: 0.61rem;
+    font-weight: 700;
 }
 
 .card-footer {

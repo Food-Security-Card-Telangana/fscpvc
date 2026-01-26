@@ -171,7 +171,7 @@ const cardStyles = `
     .list-side { flex: 1; }
     .family-table { width: 100%; border-collapse: collapse; font-size: 0.62rem; }
     .family-table th { text-align: left; border-bottom: 1.5px solid #4db6ac; color: #00897b; font-size: 0.58rem; padding-bottom: 2px; }
-    .family-table td { padding: 1.5px 0; border-bottom: 1px solid #f7f7f7; }
+    .family-table td { padding: 1px 0; border-bottom: 1px solid #f7f7f7; font-size: 0.61rem; }
     .card-footer { position: absolute; bottom: 0; width: 100%; height: 38px; background: #e8f5e9; border-top: 1.5px solid #4caf50; display: flex; align-items: center; padding: 0 12px; box-sizing: border-box; }
     .hof-label { font-weight: 700; font-size: 0.8rem; flex: 1; color: #2e7d32; padding-right: 45px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
     .qr-box { background: white; padding: 1px; border-radius: 3px; width: 34px; height: 34px; position: absolute; bottom: 2px; right: 8px; display: flex; align-items: center; justify-content: center; z-index: 10; }
@@ -236,8 +236,10 @@ function renderCardsOnPage(data) {
     }
 
     // Strict 6-per-side split for physical PVC utility
-    const frontMembers = displayMembers.slice(0, 6);
-    const backMembers = displayMembers.length > 6 ? displayMembers.slice(6, 12) : [];
+    // Auto-fix for up to 9 members on the first side
+    const frontMax = 9;
+    const frontMembers = displayMembers.slice(0, frontMax);
+    const backMembers = displayMembers.length > frontMax ? displayMembers.slice(frontMax, 18) : [];
 
     const qrRawData = {
         f: details.fscNo,
