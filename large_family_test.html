@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FSC Card - Styling Test</title>
+    <title>9-Member Large Family Simulation</title>
     <style>
         body {
             font-family: sans-serif;
@@ -39,7 +39,7 @@
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
-            opacity: 0.06;
+            opacity: 0.05;
             pointer-events: none;
             z-index: 0;
         }
@@ -77,9 +77,9 @@
 
         .card-content-split {
             display: flex;
-            padding: 10px 12px;
+            padding: 8px 12px;
             gap: 10px;
-            height: 134px;
+            height: 132px;
             box-sizing: border-box;
         }
 
@@ -95,7 +95,7 @@
 
         .info-side label {
             display: block;
-            color: #888;
+            color: #999;
             font-size: 0.52rem;
             font-weight: 700;
             text-transform: uppercase;
@@ -107,6 +107,7 @@
             color: #111;
             font-size: 0.62rem;
             line-height: 1;
+            display: block;
         }
 
         .fsc-number-val {
@@ -115,13 +116,6 @@
             color: #000;
             letter-spacing: 0.3px;
             margin: 1px 0 3px 0;
-            display: block;
-        }
-
-        .row-layout {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
         .list-side {
@@ -131,21 +125,22 @@
         .family-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.62rem;
         }
 
         .family-table th {
             text-align: left;
-            border-bottom: 1.5px solid #4db6ac;
             color: #00897b;
-            font-size: 0.58rem;
+            font-size: 0.55rem;
+            border-bottom: 1.5px solid #4db6ac;
             padding-bottom: 2px;
         }
 
         .family-table td {
-            padding: 1.5px 0;
-            border-bottom: 1px solid #f7f7f7;
+            font-size: 0.61rem;
             font-weight: 700;
+            padding: 1px 0;
+            border-bottom: 1px solid #f9f9f9;
+            color: #222;
         }
 
         .card-footer {
@@ -162,7 +157,7 @@
         }
 
         .hof-label {
-            font-weight: 700;
+            font-weight: 800;
             font-size: 0.8rem;
             flex: 1;
             color: #2e7d32;
@@ -192,58 +187,66 @@
 
 <body>
     <div style="text-align:center; margin-bottom:20px;">
-        <h2>Updated FSC Number Scaling</h2>
-        <p>Increased font weight and size for the FSC Number and other card details.</p>
+        <h2>9-Member (Large Family) First-Side Simulation</h2>
+        <p>Optimized row density and slicing to fit all 9 members on one side.</p>
     </div>
+    <div id="card-area"></div>
+    <script>
+        const data = {
+            fscNo: "369400348883", fscRefNo: "IRS066944261651",
+            hof: "Padishala Sridevi", district: "Warangal",
+            members: [
+                { sno: 1, name: "Padishala Sridevi" },
+                { sno: 2, name: "Padishala Raju" },
+                { sno: 3, name: "Jayashanker Padishala" },
+                { sno: 4, name: "Padishala Purnachandar" },
+                { sno: 5, name: "Member Five Long Name" },
+                { sno: 6, name: "Member Six" },
+                { sno: 7, name: "Member Seven" },
+                { sno: 8, name: "Member Eight" },
+                { sno: 9, name: "Member Nine" }
+            ]
+        };
 
-    <div class="pvc-card" id="card-preview">
-        <div class="card-header">
-            <div style="width:28px;"></div>
-            <div class="header-title">FSC RATION CARD - TELANGANA<br>(WARANGAL)</div>
-            <div style="width:22px;"></div>
-        </div>
-        <div class="card-content-split">
-            <div class="info-side">
-                <div><label>FSC NUMBER</label><strong class="fsc-number-val">369400348883</strong></div>
-                <div><label>REF NO</label><strong>IRS066944261651</strong></div>
-                <div><label>OLD RCNO</label><strong>WAP218125300005</strong></div>
-                <div class="row-layout"><label>GAS</label><strong>Single</strong></div>
-                <div class="row-layout"><label>SHOP NO</label><strong>4317070</strong></div>
-            </div>
-            <div class="list-side">
-                <table class="family-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>FAMILY MEMBER NAME</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>2</td>
-                            <td>Padishala Raju</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Jayashanker Padishala</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>Padishala Purnachandar</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="card-footer">
-            <div class="hof-label">HOF: Padishala Sridevi</div>
-            <div class="qr-box">
-                <div
-                    style="width:30px; height:30px; background:#eee; font-size:6px; display:flex; align-items:center; justify-content:center; text-align:center;">
-                    QR</div>
-            </div>
-        </div>
-    </div>
+        function render() {
+            // Logic matches content.js: HOF hidden, up to 9 members shown
+            const displayMembers = data.members.filter(m => m.name !== data.hof).slice(0, 9);
+            const rows = displayMembers.map(m => `<tr><td>${m.sno}</td><td>${m.name}</td></tr>`).join('');
+
+            const cardHtml = `
+                <div class="pvc-card">
+                    <div class="card-header">
+                        <div style="width:28px;"></div>
+                        <div class="header-title">FSC RATION CARD - TELANGANA<br>(${data.district})</div>
+                        <div style="width:22px;"></div>
+                    </div>
+                    <div class="card-content-split">
+                        <div class="info-side">
+                            <div><label>FSC NUMBER</label><strong class="fsc-number-val">${data.fscNo}</strong></div>
+                            <div><label>REF NO</label><strong>${data.fscRefNo}</strong></div>
+                            <div><label>OLD RCNO</label><strong>WAP2181253...</strong></div>
+                            <div style="display:flex; justify-content:space-between;"><label>GAS</label><strong>Single</strong></div>
+                            <div style="display:flex; justify-content:space-between;"><label>SHOP</label><strong>4317070</strong></div>
+                        </div>
+                        <div class="list-side">
+                            <table class="family-table">
+                                <thead><tr><th>#</th><th>FAMILY MEMBER NAME</th></tr></thead>
+                                <tbody>${rows}</tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="hof-label">HOF: ${data.hof}</div>
+                        <div class="qr-box">
+                            <div style="font-size:6px; color:#aaa; text-align:center;">QR<br>CODE</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('card-area').innerHTML = cardHtml;
+        }
+        render();
+    </script>
 </body>
 
 </html>
