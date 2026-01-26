@@ -150,13 +150,14 @@ button {
 }
 
 .info-side strong {
-    font-weight: 800;
-    color: #000;
-    font-size: 0.72rem;
+    font-weight: 600;
+    color: #111;
+    font-size: 0.62rem;
 }
 
 .fsc-number-val {
     font-size: 0.85rem !important;
+    font-weight: 800;
 }
 
 .info-side div.row-layout {

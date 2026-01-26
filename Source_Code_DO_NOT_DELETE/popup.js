@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                     <div class="card-content-split">
                         <div class="info-side">
-                            <div><label>FSC NUMBER</label><strong>${details.fscNo || '---'}</strong></div>
+                            <div><label>FSC NUMBER</label><strong class="fsc-number-val">${details.fscNo || '---'}</strong></div>
                             <div><label>REF NO</label><strong>${details.fscRefNo || '---'}</strong></div>
                             <div><label>OLD RCNO</label><strong>${details.oldRCNo || '---'}</strong></div>
                             <div class="row-layout"><label>GAS</label><strong>${details.gasConnection || '---'}</strong></div>
