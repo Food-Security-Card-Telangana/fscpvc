@@ -165,7 +165,8 @@ const cardStyles = `
     .info-side { flex: 0 0 115px; border-right: 1px solid #f0f0f0; padding-right: 8px; }
     .info-side div { margin-bottom: 3.5px; }
     .info-side label { display: block; color: #999; font-size: 0.62rem; font-weight: 500; text-transform: uppercase; }
-    .info-side strong { font-weight: 600; color: #111; font-size: 0.62rem; }
+    .info-side strong { font-weight: 800; color: #000; font-size: 0.72rem; }
+    .fsc-number-val { font-size: 0.85rem !important; color: #000; }
     .row-layout { display: flex; justify-content: space-between; align-items: center; }
     .list-side { flex: 1; }
     .family-table { width: 100%; border-collapse: collapse; font-size: 0.62rem; }
@@ -272,7 +273,7 @@ function renderCardsOnPage(data) {
                 </div>
                 <div class="card-content-split">
                     <div class="info-side">
-                        <div><label>FSC NUMBER</label><strong>${details.fscNo || '---'}</strong></div>
+                        <div><label>FSC NUMBER</label><strong class="fsc-number-val">${details.fscNo || '---'}</strong></div>
                         <div><label>REF NO</label><strong>${details.fscRefNo || '---'}</strong></div>
                         <div><label>OLD RCNO</label><strong>${details.oldRCNo || '---'}</strong></div>
                         <div class="row-layout"><label>GAS</label><strong>${details.gasConnection || '---'}</strong></div>
