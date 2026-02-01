@@ -27,11 +27,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
-                if (response && response.details && response.details.fscNo) {
+                if (response && response.details && (response.details.fscNo || response.details.rcNo)) {
                     extractedData = response;
                     statusMsg.classList.add('hidden');
                     selectionArea.classList.remove('hidden');
-                    document.getElementById('display-fsc').innerText = "FSC NO: " + response.details.fscNo;
+                    const displayId = response.details.rcNo || response.details.fscNo;
+                    document.getElementById('display-fsc').innerText = "RATION CARD NO: " + displayId;
                 } else {
                     statusMsg.innerText = "Could not find Ration Card data. Please search first.";
                 }
@@ -55,11 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const members = extractedData.members;
 
         // Filter out HOF from the list using robust normalized matching
-        const normalizedHof = details.hof.trim().replace(/\s+/g, ' ').toUpperCase();
-        let displayMembers = members.filter(m => {
-            const normalizedName = m.name.trim().replace(/\s+/g, ' ').toUpperCase();
-            return normalizedName !== normalizedHof;
-        });
+        let displayMembers = members;
 
         // If it's a single-member family, don't hide the HOF from the list
         if (displayMembers.length === 0 && members.length > 0) {
@@ -71,51 +68,100 @@ document.addEventListener('DOMContentLoaded', () => {
         const frontMembers = displayMembers.slice(0, frontMax);
         const backMembers = displayMembers.length > frontMax ? displayMembers.slice(frontMax, 18) : [];
 
-        // STAGE 2: Simplified QR Logic for Print-Scannability
+        // STAGE 2: JSON-Style Direct Record QR (v11.35)
         const qrData = {
-            f: details.fscNo,
-            h: details.hof,
+            f: details.rcNo || details.fscNo,
             r: details.fscRefNo,
             d: details.district,
-            m: members.slice(0, 5).map(m => m.name.substring(0, 15)) // Truncate for scannability
+            h: details.hof,
+            fs: details.fpShopNo,
+            ct: details.cardType,
+            gc: details.gasConnection,
+            cn: details.consumerNo,
+            os: details.oldRCNo,
+            as: details.applicationStatus,
+            an: details.applicationNo,
+            sn: details.sksFormNo,
+            on: details.officeName,
+            is: details.impdsStatus,
+            ks: details.keyRegisterSlNo,
+            m: members.map(m => m.name)
         };
-
-        // Use btoa with encodeURIComponent for safe URL passing
         const encodedData = btoa(encodeURIComponent(JSON.stringify(qrData)));
         const qrUrl = `https://food-security-card-telangana.github.io/fscpvc/viewer.html?d=${encodedData}`;
-        // Using ECC Level M (Medium) for better dot size balance, and 300x300 for sharp print capture
-        const qrImg = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(qrUrl)}&margin=1&ecc=M`;
+        const qrImg = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(qrUrl)}&margin=0&ecc=L`;
 
         const generateSideHtml = (sideId, sideTitle, memberList) => {
-            const memberRows = memberList.map(m => `<tr><td style="width:22px; color:#aaa;">${m.sno}</td><td style="font-weight:700;">${m.name}</td></tr>`).join('');
+            const memberRows = memberList.slice(0, 8).map(m => `
+                <li class="member-item">
+                    <span class="member-sno">${m.sno}</span>
+                    <span class="member-name">${m.name}</span>
+                </li>
+            `).join('');
 
             return `
                 <div id="${sideId}" class="pvc-card">
                     <div class="card-header">
-                        <img src="assets/emblem_ts.svg" class="header-logo-left">
-                        <div class="header-title">${sideTitle} - TELANGANA<br>(${details.district || '---'})</div>
-                        <img src="assets/fsc_logo.png" class="header-logo-right">
-                    </div>
-                    <div class="card-content-split">
-                        <div class="info-side">
-                            <div><label>FSC NUMBER</label><strong class="fsc-number-val">${details.fscNo || '---'}</strong></div>
-                            <div><label>REF NO</label><strong>${details.fscRefNo || '---'}</strong></div>
-                            <div><label>OLD RCNO</label><strong>${details.oldRCNo || '---'}</strong></div>
-                            <div class="row-layout"><label>GAS</label><strong>${details.gasConnection || '---'}</strong></div>
-                            <div class="row-layout"><label>CUST NO</label><strong>${details.consumerNo || '---'}</strong></div>
-                            <div class="row-layout"><label>SHOP NO</label><strong>${details.fpShopNo || '---'}</strong></div>
+                        <img src="assets/emblem_ts.svg" class="header-logo-l">
+                        <div class="header-center">
+                            <div class="header-title-main">FSC RATION CARD - TELANGANA</div>
+                            <div class="header-title-sub">(${details.district || 'District'})</div>
                         </div>
-                        <div class="list-side">
-                            <table class="family-table">
-                                <thead><tr><th>#</th><th>FAMILY MEMBER NAME</th></tr></thead>
-                                <tbody>${memberRows || '<tr><td colspan="2" style="text-align:center; padding-top:20px; color:#ccc;">NO MORE MEMBERS</td></tr>'}</tbody>
-                            </table>
+                        <img src="assets/fsc_logo.png" class="header-logo-r">
+                    </div>
+                    
+                    <div class="green-divider"></div>
+
+                    <div class="card-body">
+                        <img src="assets/seal_new.jpg" class="watermark-seal">
+                        <div class="info-col">
+                            <div class="info-item-v">
+                                <span class="info-label">REF NO</span>
+                                <span class="info-value">${details.fscRefNo || '---'}</span>
+                            </div>
+                            <div class="info-item-v">
+                                <span class="info-label">OLD RC NO</span>
+                                <span class="info-value">${details.oldRCNo || '---'}</span>
+                            </div>
+                            
+                            <div class="info-item-h">
+                                <span class="info-label">CARD TYPE:</span>
+                                <span class="info-value">${details.cardType || 'FSC'}</span>
+                            </div>
+                            <div class="info-item-h">
+                                <span class="info-label">GAS:</span>
+                                <span class="info-value">${details.gasConnection || '---'}</span>
+                            </div>
+                            <div class="info-item-h">
+                                <span class="info-label">CUST NO:</span>
+                                <span class="info-value">${details.consumerNo || '---'}</span>
+                            </div>
+                            <div class="info-item-h">
+                                <span class="info-label">SHOP NO:</span>
+                                <span class="info-value">${details.fpShopNo || '---'}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="list-col">
+                            <div class="list-header"># FAMILY MEMBER NAME</div>
+                            <ul class="member-rows">
+                                ${memberRows || '<li class="member-item"><span class="member-name">No members listed</span></li>'}
+                            </ul>
                         </div>
                     </div>
+
                     <div class="card-footer">
-                        <div class="hof-label" style="font-weight:800;">HOF: ${details.hof}</div>
-                        <div class="qr-box">
-                            <img src="${qrImg}">
+                        <div class="footer-left">
+                            <div class="qr-container">
+                                <img src="${qrImg}" alt="QR">
+                            </div>
+                            <div class="footer-labels">
+                                <div class="f-label-top">Scan for verification</div>
+                                <div class="f-label-bottom">RC NUMBER</div>
+                            </div>
+                        </div>
+                        <div class="footer-right">
+                            <div class="rc-number-text">${details.rcNo || details.fscNo}</div>
                         </div>
                     </div>
                 </div>
@@ -123,11 +169,11 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         cardWrap.innerHTML = `
-            ${generateSideHtml('card-front', 'FSC Ration Card', frontMembers)}
-            <div style="margin-top: 20px;">
-                ${generateSideHtml('card-back', 'FSC Ration Card', backMembers)}
-            </div>
-        `;
+    ${generateSideHtml('card-front', 'FSC Ration Card', frontMembers)}
+    <div style="margin-top: 20px;">
+        ${generateSideHtml('card-back', 'FSC Ration Card', backMembers)}
+    </div>
+`;
     }
 
     downloadFrontBtn.addEventListener('click', async () => {
@@ -141,7 +187,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         const link = document.createElement('a');
         const safeHof = extractedData.details.hof.replace(/[^a-z0-9]/gi, '_');
-        link.download = `FSC_${extractedData.details.fscNo}_${safeHof}_Front.png`;
+        const displayId = extractedData.details.rcNo || extractedData.details.fscNo;
+        link.download = `RC_${displayId}_${safeHof}_Front.png`;
         link.href = canvas.toContentDataURL ? canvas.toContentDataURL('image/png', 1.0) : canvas.toDataURL('image/png', 1.0);
         link.click();
     });
@@ -160,7 +207,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const link = document.createElement('a');
             const side = sideId === 'card-front' ? 'Front' : 'Back';
             const safeHof = extractedData.details.hof.replace(/[^a-z0-9]/gi, '_');
-            link.download = `FSC_${extractedData.details.fscNo}_${safeHof}_${side}.png`;
+            const displayId = extractedData.details.rcNo || extractedData.details.fscNo;
+            link.download = `RC_${displayId}_${safeHof}_${side}.png`;
             link.href = canvas.toDataURL('image/png', 1.0);
             link.click();
             await new Promise(r => setTimeout(r, 600));

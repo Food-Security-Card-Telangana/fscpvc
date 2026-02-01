@@ -27,11 +27,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
-                if (response && response.details && response.details.fscNo) {
+                if (response && response.details && (response.details.fscNo || response.details.rcNo)) {
                     extractedData = response;
                     statusMsg.classList.add('hidden');
                     selectionArea.classList.remove('hidden');
-                    document.getElementById('display-fsc').innerText = "FSC NO: " + response.details.fscNo;
+                    const displayId = response.details.rcNo || response.details.fscNo;
+                    document.getElementById('display-fsc').innerText = "RATION CARD NO: " + displayId;
                 } else {
                     statusMsg.innerText = "Could not find Ration Card data. Please search first.";
                 }
@@ -55,11 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const members = extractedData.members;
 
         // Filter out HOF from the list using robust normalized matching
-        const normalizedHof = details.hof.trim().replace(/\s+/g, ' ').toUpperCase();
-        let displayMembers = members.filter(m => {
-            const normalizedName = m.name.trim().replace(/\s+/g, ' ').toUpperCase();
-            return normalizedName !== normalizedHof;
-        });
+        let displayMembers = members;
 
         // If it's a single-member family, don't hide the HOF from the list
         if (displayMembers.length === 0 && members.length > 0) {
@@ -71,66 +68,96 @@ document.addEventListener('DOMContentLoaded', () => {
         const frontMembers = displayMembers.slice(0, frontMax);
         const backMembers = displayMembers.length > frontMax ? displayMembers.slice(frontMax, 18) : [];
 
-        // Create Data URL for QR (pointing to your GitHub Pages viewer with encoded data)
-        // Optimized: only encode necessary data to keep QR density low and scannable
+        // STAGE 2: Simplified QR Logic for Print-Scannability
         const qrData = {
             f: details.fscNo,
-            r: details.fscRefNo,
-            ct: details.cardType,
-            as: details.applicationStatus,
-            an: details.applicationNo,
-            sn: details.sksFormNo,
-            on: details.officeName,
-            fs: details.fpShopNo,
             h: details.hof,
+            r: details.fscRefNo,
             d: details.district,
-            is: details.impdsStatus,
-            gc: details.gasConnection,
-            cn: details.consumerNo,
-            ks: details.keyRegisterSlNo,
-            os: details.oldRCNo,
-            vt: new Date().toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' }),
-            m: members.map(m => m.name.substring(0, 20)) // Truncate for scannability
+            m: members.slice(0, 5).map(m => m.name.substring(0, 15)) // Truncate for scannability
         };
-
-        // Use btoa with encodeURIComponent for safe URL passing
         const encodedData = btoa(encodeURIComponent(JSON.stringify(qrData)));
-        // URL is set to your new Organization repository's GH-Pages link
         const qrUrl = `https://food-security-card-telangana.github.io/fscpvc/viewer.html?d=${encodedData}`;
-
-        // Increased size to 250 and added margin=0 for better display in the small box
-        const qrImg = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(qrUrl)}&margin=0&ecc=L`;
+        const qrImg = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(qrUrl)}&margin=0&ecc=M`;
 
         const generateSideHtml = (sideId, sideTitle, memberList) => {
-            const memberRows = memberList.map(m => `<tr><td style="width:22px; color:#aaa;">${m.sno}</td><td style="font-weight:700;">${m.name}</td></tr>`).join('');
+            const memberRows = memberList.slice(0, 8).map(m => `
+                <li class="member-item">
+                    <span class="member-sno">${m.sno}</span>
+                    <span class="member-name">${m.name}</span>
+                </li>
+            `).join('');
 
             return `
                 <div id="${sideId}" class="pvc-card">
                     <div class="card-header">
-                        <img src="assets/emblem_ts.svg" class="header-logo-left">
-                        <div class="header-title">${sideTitle} - TELANGANA<br>(${details.district || '---'})</div>
-                        <img src="assets/fsc_logo.png" class="header-logo-right">
-                    </div>
-                    <div class="card-content-split">
-                        <div class="info-side">
-                            <div><label>FSC NUMBER</label><strong class="fsc-number-val">${details.fscNo || '---'}</strong></div>
-                            <div><label>REF NO</label><strong>${details.fscRefNo || '---'}</strong></div>
-                            <div><label>OLD RCNO</label><strong>${details.oldRCNo || '---'}</strong></div>
-                            <div class="row-layout"><label>GAS</label><strong>${details.gasConnection || '---'}</strong></div>
-                            <div class="row-layout"><label>CUST NO</label><strong>${details.consumerNo || '---'}</strong></div>
-                            <div class="row-layout"><label>SHOP NO</label><strong>${details.fpShopNo || '---'}</strong></div>
+                        <img src="assets/emblem_ts.svg" class="header-logo-l">
+                        <div class="header-center">
+                            <span class="header-title-main">FSC RATION CARD - TELANGANA</span>
+                            <span class="header-title-sub">(${details.district || '---'})</span>
                         </div>
-                        <div class="list-side">
-                            <table class="family-table">
-                                <thead><tr><th>#</th><th>FAMILY MEMBER NAME</th></tr></thead>
-                                <tbody>${memberRows || '<tr><td colspan="2" style="text-align:center; padding-top:20px; color:#ccc;">NO MORE MEMBERS</td></tr>'}</tbody>
-                            </table>
+                        <img src="assets/fsc_logo.png" class="header-logo-r">
+                    </div>
+                    
+                    <div class="green-divider"></div>
+
+                    <div class="card-body">
+                        <div class="info-col">
+                            <div class="info-h-block">
+                                <span class="info-label">REF NO:</span>
+                                <span class="info-value">${details.fscRefNo || '---'}</span>
+                            </div>
+                            <div class="info-h-block">
+                                <span class="info-label">OLD RC NO:</span>
+                                <span class="info-value">${details.oldRCNo || '---'}</span>
+                            </div>
+                            
+                            <div class="info-table">
+                                <div class="table-row">
+                                    <div class="table-cell">
+                                        <span class="cell-l">CARD TYPE</span>
+                                        <span class="cell-v">${details.cardType || 'FSC'}</span>
+                                    </div>
+                                    <div class="table-cell">
+                                        <span class="cell-l">GAS</span>
+                                        <span class="cell-v">${details.gasConnection || '---'}</span>
+                                    </div>
+                                </div>
+                                <div class="table-row">
+                                    <div class="table-cell">
+                                        <span class="cell-l">CUST NO</span>
+                                        <span class="cell-v">${details.consumerNo || '---'}</span>
+                                    </div>
+                                    <div class="table-cell">
+                                        <span class="cell-l">SHOP NO</span>
+                                        <span class="cell-v">${details.fpShopNo || '---'}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="list-col">
+                            <div class="list-header"># FAMILY MEMBER NAME</div>
+                            <ul class="member-rows">
+                                ${memberRows || '<li class="member-item"><span class="member-name">No members listed</span></li>'}
+                            </ul>
                         </div>
                     </div>
+
+                    <div class="bottom-divider"></div>
+
                     <div class="card-footer">
-                        <div class="hof-label">HOF: ${details.hof}</div>
-                        <div class="qr-box">
-                            <img src="${qrImg}" width="34" height="34">
+                        <div class="footer-left">
+                            <div class="qr-container">
+                                <img src="${qrImg}" alt="QR">
+                            </div>
+                            <div class="footer-labels">
+                                <div class="f-label-top">Scan for verification</div>
+                                <div class="f-label-bottom">RC NUMBER</div>
+                            </div>
+                        </div>
+                        <div class="footer-right">
+                            <div class="rc-number-text">${details.rcNo || details.fscNo}</div>
                         </div>
                     </div>
                 </div>
@@ -138,11 +165,11 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         cardWrap.innerHTML = `
-            ${generateSideHtml('card-front', 'FSC Ration Card', frontMembers)}
-            <div style="margin-top: 20px;">
-                ${generateSideHtml('card-back', 'FSC Ration Card', backMembers)}
-            </div>
-        `;
+    ${generateSideHtml('card-front', 'FSC Ration Card', frontMembers)}
+    <div style="margin-top: 20px;">
+        ${generateSideHtml('card-back', 'FSC Ration Card', backMembers)}
+    </div>
+`;
     }
 
     downloadFrontBtn.addEventListener('click', async () => {
@@ -156,7 +183,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         const link = document.createElement('a');
         const safeHof = extractedData.details.hof.replace(/[^a-z0-9]/gi, '_');
-        link.download = `FSC_${extractedData.details.fscNo}_${safeHof}_Front.png`;
+        const displayId = extractedData.details.rcNo || extractedData.details.fscNo;
+        link.download = `RC_${displayId}_${safeHof}_Front.png`;
         link.href = canvas.toContentDataURL ? canvas.toContentDataURL('image/png', 1.0) : canvas.toDataURL('image/png', 1.0);
         link.click();
     });
@@ -175,7 +203,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const link = document.createElement('a');
             const side = sideId === 'card-front' ? 'Front' : 'Back';
             const safeHof = extractedData.details.hof.replace(/[^a-z0-9]/gi, '_');
-            link.download = `FSC_${extractedData.details.fscNo}_${safeHof}_${side}.png`;
+            const displayId = extractedData.details.rcNo || extractedData.details.fscNo;
+            link.download = `RC_${displayId}_${safeHof}_${side}.png`;
             link.href = canvas.toDataURL('image/png', 1.0);
             link.click();
             await new Promise(r => setTimeout(r, 600));

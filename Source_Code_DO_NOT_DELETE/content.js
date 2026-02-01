@@ -44,8 +44,11 @@ function extractFSCData() {
         if (!label || !value) return;
 
         // Dynamic Mapping
-        if (matches(label, ['Ration Card No', 'FSC No'])) {
+        if (matches(label, ['FSC No'])) {
             if (!data.details.fscNo) data.details.fscNo = value;
+        }
+        if (matches(label, ['Ration Card No'])) {
+            if (!data.details.rcNo) data.details.rcNo = value;
         }
         if (matches(label, ['Reference No'])) {
             if (!data.details.fscRefNo) data.details.fscRefNo = value;
@@ -147,34 +150,81 @@ const cardStyles = `
         background: #f7fbfb; box-shadow: -5px 0 15px rgba(0,0,0,0.1);
         z-index: 10000; padding: 15px; overflow-y: auto; display: none;
         font-family: 'Inter', sans-serif;
-        transition: transform 0.3s ease;
     }
     #fsc-preview-sidebar.active { display: block; }
     .fsc-close-btn { position: absolute; top: 10px; left: 10px; cursor: pointer; font-size: 24px; color: #888; border:none; background:none; font-weight:bold; }
-    .fsc-download-group { margin-top: 20px; display: flex; gap: 8px; }
-    .fsc-btn-primary { background: #00897b; color: white; border: none; padding: 12px; border-radius: 6px; flex: 1; cursor: pointer; font-weight: bold; font-size:0.8rem; }
-    .fsc-btn-secondary { background: #4db6ac; color: white; border: none; padding: 12px; border-radius: 6px; flex: 1; cursor: pointer; font-weight: bold; font-size:0.8rem; }
+    .fsc-btn-primary { background: #0b6e4f; color: white; border: none; padding: 12px; border-radius: 6px; flex: 1; cursor: pointer; font-weight: bold; font-size:0.8rem; }
+    .fsc-btn-secondary { background: #555; color: white; border: none; padding: 12px; border-radius: 6px; flex: 1; cursor: pointer; font-weight: bold; font-size:0.8rem; }
     
-    .pvc-card { width: 330px; height: 210px; background: white; border-radius: 10px; position: relative; overflow: hidden; margin: 15px auto; border: 1px solid #e0e0e0; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-    .pvc-card::before { content: ""; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 140px; height: 140px; background-image: url('${getAsset("assets/emblem_ts.svg")}'); background-size: contain; background-repeat: no-repeat; background-position: center; opacity: 0.06; pointer-events: none; z-index: 0; }
-    .card-header { height: 38px; padding: 2px 8px; display: flex; justify-content: space-between; align-items: center; color: #00897b; border-bottom: 2px solid #00897b; text-transform: uppercase; box-sizing: border-box;}
-    .header-logo-left { height: 28px; width: auto; }
-    .header-logo-right { height: 22px; width: auto; border-radius: 3px; }
-    .header-title { flex: 1; text-align: center; font-weight: 700; font-size: 0.62rem; line-height: 1.1; }
-    .card-content-split { display: flex; padding: 10px 12px; gap: 12px; height: 134px; box-sizing: border-box; }
-    .info-side { flex: 0 0 120px; border-right: 1px solid #f0f0f0; padding-right: 10px; }
-    .info-side div { margin-bottom: 3.5px; }
-    .info-side label { display: block; color: #888; font-size: 0.52rem; font-weight: 700; text-transform: uppercase; margin-bottom: 1px; }
-    .info-side strong { font-weight: 600; color: #111; font-size: 0.62rem; line-height: 1; }
-    .fsc-number-val { font-size: 0.88rem !important; font-weight: 900; color: #000; letter-spacing: 0.3px; margin: 1px 0 3px 0; display: block; }
-    .row-layout { display: flex; justify-content: space-between; align-items: center; }
-    .list-side { flex: 1; }
-    .family-table { width: 100%; border-collapse: collapse; font-size: 0.62rem; }
-    .family-table th { text-align: left; border-bottom: 1.5px solid #4db6ac; color: #00897b; font-size: 0.58rem; padding-bottom: 2px; }
-    .family-table td { padding: 1px 0; border-bottom: 1px solid #f7f7f7; font-size: 0.61rem; }
-    .card-footer { position: absolute; bottom: 0; width: 100%; height: 38px; background: #e8f5e9; border-top: 1.5px solid #4caf50; display: flex; align-items: center; padding: 0 12px; box-sizing: border-box; }
-    .hof-label { font-weight: 700; font-size: 0.8rem; flex: 1; color: #2e7d32; padding-right: 45px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-    .qr-box { background: white; padding: 1px; border-radius: 3px; width: 34px; height: 34px; position: absolute; bottom: 2px; right: 8px; display: flex; align-items: center; justify-content: center; z-index: 10; }
+    .pvc-card { 
+        width: 330px; 
+        height: 208px; 
+        background: #fff; 
+        border-radius: 12px; 
+        padding: 4px 12px; 
+        color: #111; 
+        box-shadow: 0 4px 15px rgba(0,0,0,.1);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        margin: 15px auto;
+        border: 1px solid #ddd;
+        box-sizing: border-box;
+        overflow: hidden;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .pvc-card::before { 
+        content: ""; position: absolute; top: 52%; left: 50%; transform: translate(-50%, -50%); 
+        width: 130px; height: 130px; background-image: url('${getAsset("assets/seal_ts.png")}'); 
+        background-size: contain; background-repeat: no-repeat; background-position: center; 
+        opacity: 0.04; pointer-events: none; z-index: 0; 
+    }
+    .card-header { height: 26px; display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 1; margin-bottom: 2px; }
+    .header-logo-l { width: 22px; }
+    .header-logo-r { width: 22px; }
+    .header-center { text-align: center; flex: 1; white-space: nowrap; overflow: hidden; }
+    .header-title-main { font-size: 10.5px; font-weight: 800; color: #0b6e4f; display: inline; }
+    .header-title-sub { font-size: 8.5px; font-weight: 600; color: #666; display: inline; margin-left: 5px; }
+    
+    .green-divider { height: 1.2px; background: #0b6e4f; margin: 0 0 5px 0; position: relative; z-index: 1; }
+    
+    .card-body { display: flex; gap: 10px; flex: 1; min-height: 0; position: relative; z-index: 1; }
+    
+    .info-col { width: 120px; flex-shrink: 0; border-right: 0.5px solid #eee; padding-right: 2px; }
+    .info-h-block { display: flex; align-items: baseline; gap: 4px; margin-bottom: 3px; }
+    .info-label { font-size: 7.2px; color: #777; font-weight: 800; text-transform: uppercase; white-space: nowrap; }
+    .info-value { font-size: 8.5px; color: #000; font-weight: 500; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    
+    .info-table { 
+        display: flex; flex-direction: column; width: 100%; margin-top: 5px; border: 0.5px solid #0b6e4f; 
+        border-radius: 3px; overflow: hidden; background: #fff;
+    }
+    .table-row { display: flex; border-bottom: 0.5px solid #0b6e4f; }
+    .table-row:last-child { border-bottom: none; }
+    .table-cell { flex: 1; padding: 4px 3px; border-right: 0.5px solid #0b6e4f; min-width: 0; display: flex; flex-direction: column; }
+    .table-cell:last-child { border-right: none; }
+    .cell-l { font-size: 6px; color: #0b6e4f; font-weight: 800; text-transform: uppercase; line-height: 1; margin-bottom: 2px; }
+    .cell-v { font-size: 8.2px; color: #000; font-weight: 500; line-height: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .list-col { flex: 1; min-height: 0; padding-left: 2px; }
+    .list-header { font-size: 8.5px; font-weight: 800; color: #0b6e4f; border-bottom: 1.5px solid #0b6e4f; padding-bottom: 2px; margin-bottom: 4px; }
+    .member-rows { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; }
+    .member-item { display: flex; gap: 5px; font-size: 8.5px; padding: 2px 0; border-bottom: 0.5px solid #f8f8f8; line-height: 1.2; align-items: center; }
+    .member-sno { width: 10px; color: #999; font-weight: 600; flex-shrink: 0; font-size: 7.5px; }
+    .member-name { color: #111; font-weight: 500; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+
+    .bottom-divider { height: 1.2px; background: #0b6e4f; margin: 2px 0; position: relative; z-index: 1; margin-top: auto; }
+    
+    .card-footer { height: 72px; display: flex; justify-content: space-between; align-items: flex-end; position: relative; z-index: 1; padding-bottom: 8px; }
+    .footer-left { display: flex; align-items: flex-end; gap: 10px; margin-left: 10px; }
+    .qr-container { width: 72px; height: 72px; border: 0.5px solid #ccc; background: #fff; padding: 2px; box-sizing: border-box; }
+    .qr-container img { width: 100%; height: 100%; image-rendering: pixelated; }
+    .footer-labels { display: flex; flex-direction: column; gap: 2px; padding-bottom: 3px; }
+    .f-label-top { font-size: 6px; color: #0b6e4f; font-weight: 800; text-transform: uppercase; border-bottom: 1px solid #0b6e4f; padding-bottom: 1px; }
+    .f-label-bottom { font-size: 7.5px; color: #0b6e4f; font-weight: 800; text-transform: uppercase; }
+
+    .footer-right { text-align: right; padding-bottom: 4px; margin-right: 5px; }
+    .rc-number-text { font-size: 22px; font-weight: 600; color: #0b6e4f; letter-spacing: 0.6px; line-height: 1; }
 `;
 
 let lastDetectedFsc = null;
@@ -224,11 +274,7 @@ function renderCardsOnPage(data) {
     const renderArea = document.getElementById('fsc-card-render-area');
     const details = data.details;
     const members = data.members;
-    const normalizedHof = details.hof.trim().replace(/\s+/g, ' ').toUpperCase();
-    let displayMembers = members.filter(m => {
-        const normalizedName = m.name.trim().replace(/\s+/g, ' ').toUpperCase();
-        return normalizedName !== normalizedHof;
-    });
+    let displayMembers = members;
 
     // If only HOF exists, show them in the list anyway so it's not empty
     if (displayMembers.length === 0 && members.length > 0) {
@@ -241,58 +287,97 @@ function renderCardsOnPage(data) {
     const frontMembers = displayMembers.slice(0, frontMax);
     const backMembers = displayMembers.length > frontMax ? displayMembers.slice(frontMax, 18) : [];
 
+    // STAGE 2: Simplified QR Logic for Print-Scannability
     const qrRawData = {
         f: details.fscNo,
-        r: details.fscRefNo,
-        ct: details.cardType,
-        as: details.applicationStatus,
-        an: details.applicationNo,
-        sn: details.sksFormNo,
-        on: details.officeName,
-        fs: details.fpShopNo,
         h: details.hof,
+        r: details.fscRefNo,
         d: details.district,
-        is: details.impdsStatus,
-        gc: details.gasConnection,
-        cn: details.consumerNo,
-        ks: details.keyRegisterSlNo,
-        os: details.oldRCNo,
-        vt: new Date().toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' }),
-        m: members.map(m => m.name.substring(0, 20))
+        m: members.slice(0, 5).map(m => m.name.substring(0, 15)) // Only first 5 members, truncated
     };
     const encoded = btoa(encodeURIComponent(JSON.stringify(qrRawData)));
     const qrUrl = `https://food-security-card-telangana.github.io/fscpvc/viewer.html?d=${encoded}`;
-    const qrImgSrc = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(qrUrl)}&margin=0&ecc=L`;
+    // Using ECC Level M (Medium) for better dot size balance, and 300x300 for high-quality printing
+    const qrImgSrc = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(qrUrl)}&margin=0&ecc=M`;
 
-    const generateHtml = (id, title, list) => {
-        const rows = list.map(m => `<tr><td style="width:22px; color:#aaa;">${m.sno}</td><td style="font-weight:700;">${m.name}</td></tr>`).join('');
+    const generateHtml = (id, list) => {
+        const memberRows = list.slice(0, 8).map(m => `
+            <li class="member-item">
+                <span class="member-sno">${m.sno}</span>
+                <span class="member-name">${m.name}</span>
+            </li>
+        `).join('');
+
         return `
             <div id="${id}" class="pvc-card">
                 <div class="card-header">
-                    <img src="${getAsset("assets/emblem_ts.svg")}" class="header-logo-left">
-                    <div class="header-title">${title} - TELANGANA<br>(${details.district || '---'})</div>
-                    <img src="${getAsset("assets/fsc_logo.png")}" class="header-logo-right">
-                </div>
-                <div class="card-content-split">
-                    <div class="info-side">
-                        <div><label>FSC NUMBER</label><strong class="fsc-number-val">${details.fscNo || '---'}</strong></div>
-                        <div><label>REF NO</label><strong>${details.fscRefNo || '---'}</strong></div>
-                        <div><label>OLD RCNO</label><strong>${details.oldRCNo || '---'}</strong></div>
-                        <div class="row-layout"><label>GAS</label><strong>${details.gasConnection || '---'}</strong></div>
-                        <div class="row-layout"><label>CUST NO</label><strong>${details.consumerNo || '---'}</strong></div>
-                        <div class="row-layout"><label>SHOP NO</label><strong>${details.fpShopNo || '---'}</strong></div>
+                    <img src="${getAsset("assets/emblem_ts.svg")}" class="header-logo-l">
+                    <div class="header-center">
+                        <span class="header-title-main">FSC RATION CARD - TELANGANA</span>
+                        <span class="header-title-sub">(${details.district || '---'})</span>
                     </div>
-                    <div class="list-side">
-                        <table class="family-table">
-                            <thead><tr><th>#</th><th>FAMILY MEMBER NAME</th></tr></thead>
-                            <tbody>${rows || '<tr><td colspan="2" style="text-align:center; padding-top:20px; color:#ccc;">NO MORE MEMBERS</td></tr>'}</tbody>
-                        </table>
+                    <img src="${getAsset("assets/fsc_logo.png")}" class="header-logo-r">
+                </div>
+                
+                <div class="green-divider" style="margin-top: 1px;"></div>
+
+                <div class="card-body">
+                    <div class="info-col">
+                        <div class="info-h-block">
+                            <span class="info-label">REF NO:</span>
+                            <span class="info-value">${details.fscRefNo || '---'}</span>
+                        </div>
+                        <div class="info-h-block">
+                            <span class="info-label">OLD RC NO:</span>
+                            <span class="info-value">${details.oldRCNo || '---'}</span>
+                        </div>
+                        
+                        <div class="info-table">
+                            <div class="table-row">
+                                <div class="table-cell">
+                                    <span class="cell-l">CARD TYPE</span>
+                                    <span class="cell-v">${details.cardType || 'FSC'}</span>
+                                </div>
+                                <div class="table-cell">
+                                    <span class="cell-l">GAS</span>
+                                    <span class="cell-v">${details.gasConnection || '---'}</span>
+                                </div>
+                            </div>
+                            <div class="table-row">
+                                <div class="table-cell">
+                                    <span class="cell-l">CUST NO</span>
+                                    <span class="cell-v">${details.consumerNo || '---'}</span>
+                                </div>
+                                <div class="table-cell">
+                                    <span class="cell-l">SHOP NO</span>
+                                    <span class="cell-v">${details.fpShopNo || '---'}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="list-col">
+                        <div class="list-header"># FAMILY MEMBER NAME</div>
+                        <ul class="member-rows">
+                            ${memberRows || '<li class="member-item"><span class="member-name">No members listed</span></li>'}
+                        </ul>
                     </div>
                 </div>
+
+                <div class="bottom-divider"></div>
+
                 <div class="card-footer">
-                    <div class="hof-label">HOF: ${details.hof}</div>
-                    <div class="qr-box">
-                        <img src="${qrImgSrc}" width="34" height="34">
+                    <div class="footer-left">
+                        <div class="qr-container">
+                            <img src="${qrImgSrc}" alt="QR">
+                        </div>
+                        <div class="footer-labels">
+                            <div class="f-label-top">Scan for verification</div>
+                            <div class="f-label-bottom">RC NUMBER</div>
+                        </div>
+                    </div>
+                    <div class="footer-right">
+                        <div class="rc-number-text">${details.rcNo || details.fscNo}</div>
                     </div>
                 </div>
             </div>
@@ -314,8 +399,9 @@ function renderCardsOnPage(data) {
 
 function autoDetectAndPreview() {
     const data = extractFSCData();
-    if (data.details.fscNo && data.details.fscNo !== lastDetectedFsc) {
-        lastDetectedFsc = data.details.fscNo;
+    const currentId = data.details.rcNo || data.details.fscNo;
+    if (currentId && currentId !== lastDetectedFsc) {
+        lastDetectedFsc = currentId;
         setupOnPagePreview();
         renderCardsOnPage(data);
     }

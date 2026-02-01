@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verification Gateway</title>
+    <style>
+        body {
+            background: #0b6e4f;
+            color: white;
+            font-family: system-ui, -apple-system, sans-serif;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .box {
+            background: white;
+            color: #333;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 90%;
+            width: 320px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #0b6e4f;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        h1 {
+            font-size: 1.2rem;
+            margin: 10px 0;
+            color: #0b6e4f;
+        }
+
+        .list {
+            text-align: left;
+            padding: 0;
+            margin: 20px 0;
+            list-style: none;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+        }
+
+        .list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            font-weight: 500;
+        }
+
+        .btn {
+            background: #0b6e4f;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            display: block;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="spinner"></div>
+        <h1>Verifying Data...</h1>
+        <p style="font-size:0.8rem; color:#666;">Connecting to Official EPDS Portal</p>
+        <ul class="list" id="m-list"></ul>
+        <div id="target"></div>
+    </div>
+    <script>
+        const p = new URLSearchParams(location.search);
+        const f = p.get('f');
+        const m = p.get('m');
+        if (m) {
+            const list = document.getElementById('m-list');
+            m.split(',').forEach(name => {
+                const li = document.createElement('li');
+                li.innerText = '✓ ' + name.trim();
+                list.appendChild(li);
+            });
+        }
+        if (f) {
+            const url = `https://epds.telangana.gov.in/FoodSecurityAct/FoodSecurityCardReport.do?method=getFSCReport&fscNo=${f}`;
+            document.getElementById('target').innerHTML = `<a href="${url}" class="btn">Click if not redirected</a>`;
+            setTimeout(() => { window.location.href = url; }, 1800);
+        }
+    </script>
+</body>
+
+</html>

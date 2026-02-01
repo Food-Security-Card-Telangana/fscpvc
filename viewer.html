@@ -4,224 +4,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Food Security Card - Govt of Telangana</title>
+    <title>FSC Digital Record - JSON View</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f4f7f6;
+            background-color: #121212;
+            color: #ccc;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
             margin: 0;
             padding: 20px;
-            color: #333;
+            line-height: 1.4;
         }
 
-        .container {
+        .json-container {
             max-width: 800px;
             margin: auto;
-            background: white;
-            border: 2px solid #00897b;
+            background: #1e1e1e;
+            padding: 24px;
             border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid #333;
         }
 
         .header {
-            background: #00897b;
-            color: white;
-            padding: 20px;
-            text-align: center;
+            border-bottom: 1px solid #333;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .header h1 {
+            font-size: 1rem;
             margin: 0;
-            font-size: 1.4rem;
+            color: #4db6ac;
         }
 
-        .header p {
-            margin: 5px 0 0;
-            font-size: 0.9rem;
-            opacity: 0.9;
+        .key {
+            color: #9cdcfe;
         }
 
-        .section-title {
-            background: #e0f2f1;
-            padding: 10px 20px;
-            font-weight: bold;
-            color: #00695c;
-            border-bottom: 1px solid #b2dfdb;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            margin-top: 10px;
+        .string {
+            color: #ce9178;
         }
 
-        .details-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 1px;
-            background: #eee;
-            border-bottom: 1px solid #eee;
+        .brace {
+            color: #ffd700;
         }
 
-        .grid-item {
-            background: white;
-            padding: 12px 20px;
-            font-size: 0.9rem;
+        .bracket {
+            color: #da70d6;
         }
 
-        .label {
-            font-weight: bold;
-            color: #666;
-            background: #fafafa;
+        .comma {
+            color: #e0e0e0;
         }
 
-        .value {
-            color: #000;
-            font-weight: 500;
-        }
-
-        .member-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 0;
-        }
-
-        .member-table th {
-            background: #004d40;
-            color: white;
-            text-align: left;
-            padding: 12px 20px;
-            font-size: 0.85rem;
-        }
-
-        .member-table td {
-            padding: 12px 20px;
-            border-bottom: 1px solid #eee;
-            font-size: 0.9rem;
-        }
-
-        .member-table tr:nth-child(even) {
-            background: #f9f9f9;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 0.8rem;
-            color: #777;
-            background: #fafafa;
-        }
-
-        .verified-badge {
-            display: inline-block;
-            background: #4caf50;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            margin-bottom: 10px;
-            font-weight: bold;
+        .indent {
+            margin-left: 20px;
         }
     </style>
 </head>
 
 <body>
-    <div class="container" id="main-content">
+    <div class="json-container" id="main-content">
         <div class="header">
-            <h1>Department of Consumer Affairs, Food & Civil Supplies</h1>
-            <p>Government of Telangana - Food Security Card Record</p>
+            <h1>FSC_JSON_DUMP.sh</h1>
+            <span style="font-size: 0.7rem; color: #666;">v11.33 [ENCODED_DIRECT]</span>
         </div>
-
-        <div class="section-title">Ration Card Details</div>
-        <div id="details-view" class="details-grid">
-            <!-- Details will be injected here -->
-        </div>
-
-        <div class="section-title">Family Member Details</div>
-        <table class="member-table">
-            <thead>
-                <tr>
-                    <th style="width: 50px;">S.No</th>
-                    <th>Member Name</th>
-                    <th>Relationship</th>
-                </tr>
-            </thead>
-            <tbody id="member-rows">
-                <!-- Members will be injected here -->
-            </tbody>
-        </table>
-
-        <div class="footer">
-            <div class="verified-badge">✓ VERIFIED DIGITAL RECORD</div>
-            <div id="verified-date-footer"
-                style="margin-bottom: 10px; font-weight: bold; color: #2e7d32; font-size: 0.9rem;"></div>
-            <p>This is a system-generated digital summary of the FSC record.</p>
-            <p>© Government of Telangana. All Rights Reserved.</p>
+        <div id="json-view">
+            <span class="brace">{</span><br>
+            <div id="json-content"></div>
+            <span class="brace">}</span>
         </div>
     </div>
 
     <script>
+        const labelMap = {
+            f: "fsc_number",
+            r: "ref_number",
+            d: "district",
+            h: "hof_name",
+            fs: "shop_number",
+            ct: "card_type",
+            gc: "gas_connection",
+            cn: "consumer_number",
+            os: "old_rc_number",
+            as: "application_status",
+            an: "application_number",
+            sn: "sks_form_number",
+            on: "office_name",
+            is: "impds_status",
+            ks: "key_register_no",
+            m: "family_members"
+        };
+
         try {
             const urlParams = new URLSearchParams(window.location.search);
             const encodedData = urlParams.get('d');
-            if (!encodedData) throw new Error("No data");
+            const fParam = urlParams.get('f');
+            const mParam = urlParams.get('m');
 
-            const data = JSON.parse(decodeURIComponent(atob(encodedData)));
+            let data = null;
+            if (encodedData) {
+                data = JSON.parse(decodeURIComponent(atob(encodedData)));
+            } else if (fParam) {
+                data = { f: fParam, m: mParam ? mParam.split(',') : [] };
+            }
 
-            const mapping = [
-                ['Verified Digital On', data.vt],
-                ['New Ration Card No', data.f],
-                ['FSC Reference No', data.r],
-                ['Card Type', data.ct],
-                ['Application Status', data.as],
-                ['Application No', data.an],
-                ['SKS Form No', data.sn],
-                ['Office Name', data.on],
-                ['FP Shop No', data.fs],
-                ['Head of Family', data.h],
-                ['District', data.d],
-                ['IMPDS Status', data.is],
-                ['Gas Connection', data.gc],
-                ['Consumer No', data.cn],
-                ['KeyRegister Sl.No', data.ks],
-                ['Old RCNo', data.os]
-            ];
+            if (!data) throw new Error("EMPTY");
 
-            const detailsView = document.getElementById('details-view');
-            mapping.forEach(([label, val]) => {
-                if (val) {
-                    detailsView.innerHTML += `
-                        <div class="grid-item label">${label}</div>
-                        <div class="grid-item value">${val}</div>
-                    `;
+            const contentEl = document.getElementById('json-content');
+            let html = '';
+
+            const keys = Object.keys(data);
+            keys.forEach((key, index) => {
+                const label = labelMap[key] || key;
+                const val = data[key];
+                const isLast = index === keys.length - 1;
+                const comma = isLast ? '' : '<span class="comma">,</span>';
+
+                if (Array.isArray(val)) {
+                    html += `<div class="indent"><span class="key">"${label}"</span><span class="comma">:</span> <span class="bracket">[</span></div>`;
+                    val.forEach((item, i) => {
+                        const mComma = (i === val.length - 1) ? '' : '<span class="comma">,</span>';
+                        html += `<div class="indent" style="margin-left:40px;"><span class="string">"${item}"</span>${mComma}</div>`;
+                    });
+                    html += `<div class="indent"><span class="bracket">]</span>${comma}</div>`;
+                } else {
+                    html += `<div class="indent"><span class="key">"${label}"</span><span class="comma">:</span> <span class="string">"${val || '---'}"</span>${comma}</div>`;
                 }
             });
 
-            if (data.vt) {
-                document.getElementById('verified-date-footer').innerText = "Verified On: " + data.vt;
-            }
-
-            const rows = document.getElementById('member-rows');
-            if (data.m && data.m.length > 0) {
-                data.m.forEach((name, i) => {
-                    const isHof = (data.h && name) ? (data.h.trim().toUpperCase() === name.trim().toUpperCase()) : false;
-                    rows.innerHTML += `
-                        <tr>
-                            <td>${i + 1}</td>
-                            <td>${name || '---'}</td>
-                            <td>${isHof ? 'Head of Family' : 'Member'}</td>
-                        </tr>
-                    `;
-                });
-            } else {
-                rows.innerHTML = '<tr><td colspan="3" style="text-align:center;">No member names encoded.</td></tr>';
-            }
+            contentEl.innerHTML = html;
 
         } catch (e) {
-            document.getElementById('main-content').innerHTML = `
-                <div style="padding: 50px; text-align: center;">
-                    <h2 style="color: #c62828;">Invalid Digital Record</h2>
-                    <p>The scanned QR code contains invalid or corrupted data.</p>
-                </div>
-            `;
+            document.getElementById('json-view').innerHTML = '<div class="indent"><span class="key">"error"</span>: <span class="string">"NO_FSC_RECORDS_MAPPED"</span></div>';
         }
     </script>
 </body>

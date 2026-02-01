@@ -1,244 +1,367 @@
-/* popup.css - Unified 2-Sided PVC Layout */
-:root {
-    --primary-color: #00897b;
-    --accent-color: #4db6ac;
-    --bg-color: #f7fbfb;
-    --text-color: #263238;
+/* popup.css - Phase 9 Final Polish */
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
 }
 
 body {
-    width: 380px;
-    font-family: 'Inter', sans-serif;
-    margin: 0;
-    background-color: var(--bg-color);
+    background: #f4f7f6;
+    padding: 15px;
+    width: 360px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-.container {
-    padding: 16px;
-}
-
-.hidden {
-    display: none;
-}
-
-header {
-    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-    color: white;
-    padding: 12px;
-    text-align: center;
-    border-radius: 8px 8px 0 0;
-    margin: -16px -16px 16px -16px;
-}
-
-header h1 {
-    font-size: 1.1rem;
-    margin: 0;
-}
-
-.info-group {
-    background: white;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    margin-bottom: 12px;
-}
-
-button {
-    width: 100%;
-    padding: 12px;
-    background: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-bottom: 8px;
-}
-
-/* PVC CARD SHARED STYLES */
 .pvc-card {
     width: 330px;
-    height: 210px;
-    /* Adjusted for better footer fit */
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    height: 208px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 4px 12px;
+    color: #111;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, .1);
+    display: flex;
+    flex-direction: column;
     position: relative;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
     overflow: hidden;
-    margin: 10px auto;
-    border: 1px solid #e0e0e0;
 }
 
-/* Subtle Ink-Efficient Official Seal Watermark */
 .pvc-card::before {
     content: "";
     position: absolute;
-    top: 50%;
+    top: 52%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 150px;
-    height: 150px;
-    background-image: url('assets/emblem_ts.svg');
+    width: 130px;
+    height: 130px;
+    background-image: url('assets/seal_ts.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    opacity: 0.06;
-    /* Extremely faint for luxury feel and ink saving */
+    opacity: 0.04;
     pointer-events: none;
     z-index: 0;
 }
 
 .card-header {
-    background: transparent;
-    padding: 2px 8px;
+    height: 26px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    color: var(--primary-color);
-    border-bottom: 2px solid var(--primary-color);
-    text-transform: uppercase;
+    justify-content: space-between;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 2px;
 }
 
-.header-logo-left {
-    height: 30px;
-    width: auto;
+.header-logo-l {
+    width: 22px;
 }
 
-.header-logo-right {
-    height: 24px;
-    width: auto;
-    border-radius: 3px;
+.header-logo-r {
+    width: 22px;
 }
 
-.header-title {
-    flex: 1;
+.header-center {
     text-align: center;
-    font-weight: 700;
-    font-size: 0.62rem;
-    line-height: 1.1;
-    letter-spacing: 0.4px;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
-.card-content-split {
-    display: flex;
-    padding: 10px 12px;
-    gap: 12px;
-    height: 135px;
-    /* Slightly more height for content */
+.header-title-main {
+    font-size: 10.5px;
+    font-weight: 800;
+    color: #0b6e4f;
+    display: inline;
 }
 
-.info-side {
-    flex: 0 0 120px;
-    font-size: 0.68rem;
-    border-right: 1px solid #f0f0f0;
-    padding-right: 10px;
-    color: var(--text-color);
-}
-
-.info-side div {
-    margin-bottom: 3.5px;
-}
-
-.info-side label {
-    display: block;
-    color: #888;
-    font-size: 0.52rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    margin-bottom: 1px;
-}
-
-.info-side strong {
+.header-title-sub {
+    font-size: 8.5px;
     font-weight: 600;
-    color: #111;
-    font-size: 0.62rem;
-    line-height: 1;
+    color: #666;
+    display: inline;
+    margin-left: 5px;
 }
 
-.fsc-number-val {
-    font-size: 0.88rem !important;
-    font-weight: 900;
-    color: #000;
-    letter-spacing: 0.3px;
-    margin: 1px 0 3px 0;
-    display: block;
+.green-divider {
+    height: 1.2px;
+    background: #0b6e4f;
+    margin: 0 0 5px 0;
+    position: relative;
+    z-index: 1;
 }
 
-.info-side div.row-layout {
+.card-body {
     display: flex;
-    justify-content: space-between;
+    gap: 10px;
+    flex: 1;
+    min-height: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.info-col {
+    width: 120px;
+    flex-shrink: 0;
+    border-right: 0.5px solid #eee;
+    padding-right: 2px;
+}
+
+.info-h-block {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    margin-bottom: 3px;
+}
+
+.info-label {
+    font-size: 7.2px;
+    color: #777;
+    font-weight: 800;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.info-value {
+    font-size: 8.5px;
+    color: #000;
+    font-weight: 500;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.info-table {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 5px;
+    border: 0.5px solid #0b6e4f;
+    border-radius: 3px;
+    overflow: hidden;
+    background: #fff;
+}
+
+.table-row {
+    display: flex;
+    border-bottom: 0.5px solid #0b6e4f;
+}
+
+.table-row:last-child {
+    border-bottom: none;
+}
+
+.table-cell {
+    flex: 1;
+    padding: 4px 3px;
+    border-right: 0.5px solid #0b6e4f;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.table-cell:last-child {
+    border-right: none;
+}
+
+.cell-l {
+    font-size: 6px;
+    color: #0b6e4f;
+    font-weight: 800;
+    text-transform: uppercase;
+    line-height: 1;
+    margin-bottom: 2px;
+}
+
+.cell-v {
+    font-size: 8.2px;
+    color: #000;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.list-col {
+    flex: 1;
+    min-height: 0;
+    padding-left: 2px;
+}
+
+.list-header {
+    font-size: 8.5px;
+    font-weight: 800;
+    color: #0b6e4f;
+    border-bottom: 1.5px solid #0b6e4f;
+    padding-bottom: 2px;
+    margin-bottom: 4px;
+}
+
+.member-rows {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.member-item {
+    display: flex;
+    gap: 5px;
+    font-size: 8.5px;
+    padding: 2px 0;
+    border-bottom: 0.5px solid #f8f8f8;
+    line-height: 1.2;
     align-items: center;
 }
 
-.info-side div.row-layout label {
-    margin-bottom: 0;
-    font-size: 0.62rem;
-    /* Ensuring consistency in row layout */
+.member-sno {
+    width: 10px;
+    color: #999;
+    font-weight: 600;
+    flex-shrink: 0;
+    font-size: 7.5px;
 }
 
-.list-side {
-    flex: 1;
-}
-
-.family-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.65rem;
-    /* Decreased font size */
-    color: #333;
-}
-
-.family-table th {
-    text-align: left;
-    padding-bottom: 4px;
-    border-bottom: 1.5px solid var(--accent-color);
-    color: var(--primary-color);
-    font-size: 0.58rem;
-}
-
-.family-table td {
-    padding: 1px 0;
-    border-bottom: 1px solid #f9f9f9;
+.member-name {
     color: #111;
-    font-size: 0.61rem;
-    font-weight: 700;
+    font-weight: 500;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.bottom-divider {
+    height: 1.2px;
+    background: #0b6e4f;
+    margin: 2px 0;
+    position: relative;
+    z-index: 1;
+    margin-top: auto;
 }
 
 .card-footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 38px;
-    background: #e8f5e9;
-    /* Light Green background */
-    border-top: 1.5px solid #4caf50;
-    /* Green border */
+    height: 72px;
     display: flex;
-    align-items: center;
-    padding: 0 15px;
+    justify-content: space-between;
+    align-items: flex-end;
+    position: relative;
+    z-index: 1;
+    padding-bottom: 8px;
+}
+
+.footer-left {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    margin-left: 10px;
+}
+
+.qr-container {
+    width: 72px;
+    height: 72px;
+    border: 0.5px solid #ccc;
+    background: #fff;
+    padding: 2px;
     box-sizing: border-box;
-    color: #2e7d32;
-    /* Dark Green text for HOF */
 }
 
-.hof-label {
-    font-weight: 700;
-    font-size: 0.8rem;
-    flex: 1;
-    color: #2e7d32;
+.qr-container img {
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
 }
 
-.qr-box {
-    background: white;
-    padding: 1px;
-    border-radius: 3px;
-    width: 36px;
-    height: 36px;
-    position: absolute;
-    bottom: 4px;
-    right: 12px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+.footer-labels {
     display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-bottom: 3px;
+}
+
+.f-label-top {
+    font-size: 6px;
+    color: #0b6e4f;
+    font-weight: 800;
+    text-transform: uppercase;
+    border-bottom: 1px solid #0b6e4f;
+    padding-bottom: 1px;
+}
+
+.f-label-bottom {
+    font-size: 7.5px;
+    color: #0b6e4f;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.footer-right {
+    text-align: right;
+    padding-bottom: 4px;
+    margin-right: 5px;
+}
+
+.rc-number-text {
+    font-size: 22px;
+    font-weight: 600;
+    color: #0b6e4f;
+    letter-spacing: 0.6px;
+    line-height: 1;
+}
+
+.fsc-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+}
+
+.fsc-header {
+    color: #0b6e4f;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.fsc-btn-group {
+    display: flex;
+    gap: 10px;
+    width: 330px;
+    margin-top: 10px;
+}
+
+.fsc-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.2s;
+}
+
+.fsc-btn-main {
+    background: #0b6e4f;
+    color: white;
+}
+
+.fsc-btn-main:hover {
+    background: #085a41;
+}
+
+.fsc-btn-alt {
+    background: #555;
+    color: white;
+}
+
+.fsc-btn-alt:hover {
+    background: #444;
 }

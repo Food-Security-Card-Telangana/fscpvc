@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PVC Ration Card Visualizer - Telangana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #f0f2f5;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Inter', -apple-system, sans-serif;
+        }
+
+        .pvc-card {
+            width: 330px;
+            height: 208px;
+            background: #fff;
+            border-radius: 12px;
+            padding: 6px 14px;
+            color: #111;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            border: 1px solid #ddd;
+            overflow: hidden;
+        }
+
+        .watermark-seal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 185px;
+            height: 185px;
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: 900;
+            color: #aaa;
+            border: 3px solid #aaa;
+            border-radius: 50%;
+        }
+
+        .header {
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-img {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+
+        .header-center {
+            text-align: center;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .title-main {
+            font-size: 10.5px;
+            font-weight: 800;
+            color: #0b6e4f;
+            line-height: 1;
+        }
+
+        .title-sub {
+            font-size: 7.5px;
+            font-weight: 600;
+            color: #666;
+            margin-top: 1.5px;
+            line-height: 1;
+        }
+
+        .green-divider {
+            height: 1px;
+            background: #0b6e4f;
+            margin: 2px 0 6px 0;
+            opacity: 0.8;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content {
+            display: flex;
+            gap: 12px;
+            height: 115px;
+            position: relative;
+            z-index: 0;
+            overflow: visible;
+        }
+
+        .left-side {
+            width: 125px;
+            flex-shrink: 0;
+            border-right: 0.5px solid #eee;
+            padding-right: 4px;
+        }
+
+        .info-row-v {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 1px;
+        }
+
+        .info-row-h {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+            margin-bottom: 1px;
+        }
+
+        .info-label {
+            font-size: 6.5px;
+            color: #aaa;
+            font-weight: 500;
+            text-transform: uppercase;
+            line-height: 1;
+            margin: 0;
+        }
+
+        .info-value {
+            font-family: 'Arial', sans-serif;
+            font-size: 10.5px;
+            color: #111;
+            font-weight: 700;
+            line-height: 1.0;
+            margin-bottom: 1px;
+            overflow: visible;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .info-row-v .info-value {
+            border-bottom: 0.5px solid #f2f2f2;
+            padding-bottom: 0;
+        }
+
+        .right-side {
+            flex: 1;
+            min-height: 0;
+            padding-left: 2px;
+        }
+
+        .members-title {
+            font-size: 8.5px;
+            font-weight: 800;
+            color: #0b6e4f;
+            border-bottom: 1.5px solid #0b6e4f;
+            margin-bottom: 3px;
+            padding-bottom: 2px;
+        }
+
+        .members-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .members-list li {
+            display: flex;
+            align-items: baseline;
+            gap: 2px;
+            font-size: 8.5px;
+            height: 12.5px;
+            padding-top: 1px;
+            border-bottom: 0.5px solid #f8f8f8;
+        }
+
+        .members-list li .sno {
+            width: 9px;
+            color: #aaa;
+            flex-shrink: 0;
+            font-weight: 500;
+            line-height: 1;
+            font-size: 7.2px;
+        }
+
+        .members-list li .name {
+            font-family: 'Arial', sans-serif;
+            font-weight: 800;
+            color: #111;
+            font-size: 9.5px;
+            line-height: 1.1;
+            overflow: visible;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .footer {
+            height: 55px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding: 4px 0 6px 0;
+            border-top: 1.5px solid #0b6e4f;
+            margin-top: auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
+        .qr-mock {
+            position: absolute;
+            bottom: 8px;
+            left: 10px;
+            width: 58px;
+            height: 58px;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 8px;
+            color: #999;
+            border: 0.5px solid #ccc;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            z-index: 10;
+        }
+
+        .footer-labels {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            padding-bottom: 6px;
+            margin-left: 72px;
+        }
+
+        .f-label-top {
+            font-size: 6px;
+            color: #0b6e4f;
+            font-weight: 800;
+            border-bottom: 1px solid #0b6e4f;
+            padding-bottom: 1px;
+        }
+
+        .f-label-bottom {
+            font-size: 7.5px;
+            color: #0b6e4f;
+            font-weight: 800;
+        }
+
+        .rc-number {
+            font-size: 23px;
+            font-weight: 900;
+            color: #0b6e4f;
+            padding-bottom: 6px;
+            line-height: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="pvc-card">
+        <div class="header">
+            <div class="logo-img" style="background: #0b6e4f; border-radius: 50%;"></div>
+            <div class="header-center">
+                <div class="title-main">FSC RATION CARD - TELANGANA</div>
+                <div class="title-sub">(Warangal)</div>
+            </div>
+            <div class="logo-img" style="background: #0b6e4f; border-radius: 50%;"></div>
+        </div>
+
+        <div class="green-divider"></div>
+
+        <div class="content">
+            <div class="watermark-seal">
+                <div
+                    style="width: 140px; height: 140px; border: 3.5px dashed #ddd; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #ddd; font-weight: 900; font-size: 18px; letter-spacing: 1px;">
+                    TS SEAL</div>
+            </div>
+            <div class="left-side">
+                <div class="info-row-v"><span class="info-label">REF NO</span><span
+                        class="info-value">IRS066944261651</span></div>
+                <div class="info-row-v"><span class="info-label">OLD RC NO</span><span
+                        class="info-value">WAP218125300005</span></div>
+
+                <div class="info-row-h"><span class="info-label">CARD TYPE:</span><span class="info-value">FSC</span>
+                </div>
+                <div class="info-row-h"><span class="info-label">GAS:</span><span class="info-value">Single</span></div>
+                <div class="info-row-h"><span class="info-label">CUST NO:</span><span class="info-value">722026</span>
+                </div>
+                <div class="info-row-h"><span class="info-label">SHOP NO:</span><span class="info-value">4317070</span>
+                </div>
+            </div>
+
+            <div class="right-side">
+                <div class="members-title"># FAMILY MEMBER NAME</div>
+                <ul class="members-list">
+                    <li><span class="sno">1</span><span class="name">Padishala Sridevi</span></li>
+                    <li><span class="sno">2</span><span class="name">Padishala Raju</span></li>
+                    <li><span class="sno">3</span><span class="name">Jayashanker Padishala</span></li>
+                    <li><span class="sno">4</span><span class="name">Padishala Purnachandar</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-left">
+                <div class="qr-mock">QR</div>
+                <div class="footer-labels">
+                    <span class="f-label-top">SCAN FOR VERIFICATION</span>
+                    <span class="f-label-bottom">RC NUMBER</span>
+                </div>
+            </div>
+            <div class="rc-number">369400348883</div>
+        </div>
+    </div>
+
+</body>
+
+</html>
