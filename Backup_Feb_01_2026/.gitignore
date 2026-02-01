@@ -1,0 +1,6 @@
+# Git Ignore for TS FSC Extension
+node_modules/
+.DS_Store
+*.log
+.gemini/
+brain/

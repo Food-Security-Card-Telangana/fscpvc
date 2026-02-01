@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PVC Card Validation - 12 Members</title>
+    <link rel="stylesheet" href="popup.css">
+    <style>
+        body {
+            background: #eee;
+            padding: 40px;
+        }
+
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            margin: auto;
+        }
+
+        h2 {
+            font-size: 1rem;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #00796b;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="test-container">
+        <h2>Verifying Layout with 12 Members</h2>
+        <div id="card-preview" class="aarogyasri-card">
+            <!-- Simulated renderFamilyCard output -->
+        </div>
+    </div>
+
+    <script>
+        const extractedData = {
+            details: {
+                fscNo: "369400348883",
+                cardType: "FSC",
+                gasConnection: "Single",
+                consumerNo: "722026",
+                keyRegisterSlNo: "217(4317070)",
+                oldRCNo: "WAP218125300005",
+                hof: "Padishala Sridevi",
+                district: "Warangal"
+            },
+            members: [
+                { sno: "1", name: "Padishala Sridevi" },
+                { sno: "2", name: "Padishala Raju" },
+                { sno: "3", name: "Jayashanker Padishala" },
+                { sno: "4", name: "Padishala Purnachandar" },
+                { sno: "5", name: "Member Five Name" },
+                { sno: "6", name: "Member Six Name" },
+                { sno: "7", name: "Member Seven Name" },
+                { sno: "8", name: "Member Eight Name" },
+                { sno: "9", name: "Member Nine Name" },
+                { sno: "10", name: "Member Ten Name" },
+                { sno: "11", name: "Member Eleven Name" },
+                { sno: "12", name: "Member Twelve Name" }
+            ]
+        };
+
+        const cardPreview = document.getElementById('card-preview');
+
+        function renderFamilyCard() {
+            const details = extractedData.details;
+            const members = extractedData.members;
+
+            let memberRows = members
+                .filter(m => m.name !== details.hof)
+                .map(m => `
+                <tr>
+                    <td style="width: 25px; color: #999;">${m.sno}</td>
+                    <td style="font-weight: 700; color: #333;">${m.name}</td>
+                </tr>
+            `).join('');
+
+            cardPreview.innerHTML = `
+                <div class="card-header-banner">
+                    FSC FAMILY CARD • TELANGANA (${details.district || 'WARANGAL'})
+                </div>
+                <div class="card-content-split" style="background: linear-gradient(to bottom, #ffffff, #f4fbfb);">
+                    <div class="side-info-panel">
+                        <div><label>FSC NUMBER</label><strong>${details.fscNo}</strong></div>
+                        <div><label>CARD TYPE</label><strong>${details.cardType}</strong></div>
+                        <div><label>GAS</label><strong>${details.gasConnection}</strong></div>
+                        <div><label>CONSUMER NO</label><strong>${details.consumerNo}</strong></div>
+                        <div><label>SHOP NO</label><strong>${details.keyRegisterSlNo.split('(')[0]}</strong></div>
+                        <div style="border:none;"><label>OLD RCN</label><strong>${details.oldRCNo}</strong></div>
+                    </div>
+                    <div class="main-list-panel">
+                        <table class="family-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>FAMILY MEMBER NAME</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${memberRows}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer-branding">
+                    <span style="font-size: 0.9rem;">HOF: ${details.hof}</span>
+                    <div class="qr-code-box" style="display:flex; align-items:center; justify-content:center;">
+                        <div style="width:34px; height:34px; background:#eee; font-size:8px; display:flex; align-items:center; justify-content:center; color:#999; border:1px solid #ddd;">QR</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        renderFamilyCard();
+    </script>
+</body>
+
+</html>

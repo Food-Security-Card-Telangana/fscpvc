@@ -1,0 +1,262 @@
+/* popup.css - Unified 2-Sided PVC Layout */
+:root {
+    --primary-color: #00897b;
+    --accent-color: #4db6ac;
+    --bg-color: #f7fbfb;
+    --text-color: #263238;
+}
+
+body {
+    width: 380px;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    background-color: var(--bg-color);
+}
+
+.container {
+    padding: 16px;
+}
+
+.hidden {
+    display: none;
+}
+
+header {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: white;
+    padding: 12px;
+    text-align: center;
+    border-radius: 8px 8px 0 0;
+    margin: -16px -16px 16px -16px;
+}
+
+header h1 {
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.info-group {
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    margin-bottom: 12px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+/* PVC CARD SHARED STYLES */
+.pvc-card {
+    width: 330px;
+    height: 210px;
+    /* Adjusted for better footer fit */
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    margin: 10px auto;
+    border: 1px solid #e0e0e0;
+}
+
+/* Subtle Ink-Efficient Official Seal Watermark */
+.pvc-card::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    height: 150px;
+    background-image: url('assets/emblem_ts.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.06;
+    /* Extremely faint for luxury feel and ink saving */
+    pointer-events: none;
+    z-index: 0;
+}
+
+.card-header {
+    background: transparent;
+    padding: 2px 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+    text-transform: uppercase;
+}
+
+.header-logo-left {
+    height: 30px;
+    width: auto;
+}
+
+.header-logo-right {
+    height: 24px;
+    width: auto;
+    border-radius: 3px;
+}
+
+.header-title {
+    flex: 1;
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.62rem;
+    line-height: 1.1;
+    letter-spacing: 0.4px;
+}
+
+.card-content-split {
+    display: flex;
+    padding: 10px 12px;
+    gap: 12px;
+    height: 135px;
+    /* Slightly more height for content */
+}
+
+.info-side {
+    flex: 0 0 120px;
+    font-size: 0.68rem;
+    border-right: 1px solid #f0f0f0;
+    padding-right: 10px;
+    color: var(--text-color);
+}
+
+.info-side div {
+    margin-bottom: 3.5px;
+}
+
+.info-side label {
+    display: block;
+    color: #888;
+    font-size: 0.52rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 1px;
+}
+
+.info-side strong {
+    font-weight: 600;
+    color: #111;
+    font-size: 0.62rem;
+    line-height: 1;
+}
+
+.fsc-number-val {
+    font-size: 0.88rem !important;
+    font-weight: 900;
+    color: #000;
+    letter-spacing: 0.3px;
+    margin: 1px 0 3px 0;
+    display: block;
+}
+
+.info-side div.row-layout {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.info-side div.row-layout label {
+    margin-bottom: 0;
+    font-size: 0.62rem;
+    /* Ensuring consistency in row layout */
+}
+
+.list-side {
+    flex: 1;
+}
+
+.family-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.65rem;
+    /* Decreased font size */
+    color: #333;
+}
+
+.family-table th {
+    text-align: left;
+    padding-bottom: 4px;
+    border-bottom: 1.5px solid var(--accent-color);
+    color: var(--primary-color);
+    font-size: 0.58rem;
+}
+
+.family-table td {
+    padding: 1px 0;
+    border-bottom: 1px solid #f9f9f9;
+    color: #111;
+    font-size: 0.61rem;
+    font-weight: 700;
+}
+
+.card-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 32px;
+    background: #e8f5e9;
+    border-top: 1.5px solid #4caf50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.footer-fsc {
+    font-weight: 900;
+    font-size: 1.2rem;
+    color: #0000ff;
+    letter-spacing: 0.5px;
+}
+
+.hof-label {
+    font-weight: 800;
+    font-size: 0.85rem;
+    color: #1b5e20;
+    width: 70%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-top: 5px;
+}
+
+.qr-box {
+    display: none !important;
+}
+
+.qr-box img {
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+}
+
+.qr-box {
+    background: white;
+    padding: 1px;
+    border-radius: 3px;
+    width: 36px;
+    height: 36px;
+    position: absolute;
+    bottom: 4px;
+    right: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
